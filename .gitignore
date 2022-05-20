@@ -45,3 +45,4 @@ Thumbs.db
 
 #installer
 out
+leitner-backend/src/main/resources/application.properties
