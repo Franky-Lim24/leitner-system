@@ -12,9 +12,9 @@
 	<artifactId>leitner-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>leitner-backend</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Backend System for Leitner Box System</description>
 	<properties>
-		<java.version>18</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -28,6 +28,10 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
 		</dependency>
 
 		<dependency>
