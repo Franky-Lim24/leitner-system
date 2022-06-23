@@ -1,39 +1,22 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
+import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-import {NavigationContainer} from '@react-navigation/native';
+export default function App() {
+	return (
+		<View style={styles.container}>
+			<Text style={{ color: 'white' }}>Hello World!</Text>
+			<Text style={{ color: 'green' }}>Test123</Text>
+			<StatusBar style="auto" />
+		</View>
+	);
+}
 
-const Stack = createNativeStackNavigator();
-
-const App = () => {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{title: 'Welcome'}}
-        />
-        <Stack.Screen name="Profile" component={ProfileScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-};
-
-export default App;
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: '#000',
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+});
