@@ -49,6 +49,8 @@ public class Box {
         return box_id;
     }
 
+    public void setBox_id(int box_id)  {this.box_id = box_id;}
+
     public int getDay() {
         return day;
     }
