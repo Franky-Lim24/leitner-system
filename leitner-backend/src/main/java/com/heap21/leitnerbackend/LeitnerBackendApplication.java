@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 @SpringBootApplication
 public class LeitnerBackendApplication implements CommandLineRunner {
-	private static final Logger log = LoggerFactory.getLogger(LeitnerBoxApplication.class);
+	private static final Logger log = LoggerFactory.getLogger(LeitnerBackendApplication.class);
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
