@@ -23,7 +23,7 @@ public class JdbcBoxRepository implements BoxRepository {
 
     @Override
     @RequestMapping
-    public int save(Box box) {
+    public int saveBox(Box box) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(
@@ -40,19 +40,61 @@ public class JdbcBoxRepository implements BoxRepository {
     }
 
     @Override
-    public int update(Box box) {
+    public int updateBox(Box box) {
         return jdbcTemplate.update("UPDATE BOX SET COLOUR = ?, BOX_NAME = ? WHERE BOX_ID = ?", box.getColour(), box.getBox_name(), box.getBox_id());
     }
 
     @Override
-    public int deleteById(int id) {
+    public int deleteBoxById(int id) {
         return jdbcTemplate.update("DELETE FROM BOX WHERE BOX_ID = ?", id);
     }
 
     @Override
-    public List<Box> findAll() {
+    public List<Box> findAllBox() {
         String sql = "SELECT * FROM BOX";
         List<Box> boxes = jdbcTemplate.query(sql, new BeanPropertyRowMapper(Box.class));
         return boxes;
+    }
+
+    @Override
+    public int saveQuestion(Question question, Box box) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(
+                    "INSERT INTO QUESTION (QUESTION, ANSWER, BOX_ID) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, question.getQuestion());
+            ps.setString(2, question.getAnswer());
+            ps.setInt(3, box.getBox_id());
+            return ps;
+        }, keyHolder);
+
+        int question_id = keyHolder.getKey().intValue();
+        question.setQuestion_id(question_id);
+        return question_id;
+    }
+
+    @Override
+    public int updateQuestion(Question question, Box box) {
+        return jdbcTemplate.update("UPDATE QUESTION SET QUESTION = ?, ANSWER = ? WHERE QUESTION_ID = ? AND BOX_ID = ?",question.getQuestion(), question.getAnswer(), question.getQuestion_id(), box.getBox_id());
+    }
+
+    @Override
+    public int deleteQuestionById(int question_id, int box_id) {
+        return jdbcTemplate.update("DELETE FROM QUESTION WHERE QUESTION_ID = ? AND BOX_ID = ?", question_id, box_id);
+    }
+
+    @Override
+    public List<Question> findAllQuestion() {
+        String sql = "SELECT * FROM QUESTION";
+        List<Question> questions = jdbcTemplate.query(sql, new BeanPropertyRowMapper(Question.class));
+        return questions;
+    }
+
+    @Override
+    public List<Question> findAllQuestionByBox(Box box) {
+        int box_id = box.getBox_id();
+        String sql = "SELECT * FROM QUESTION WHERE BOX_ID = " + box_id + ";";
+        List<Question> questions = jdbcTemplate.query(sql, new BeanPropertyRowMapper(Question.class));
+        return questions;
     }
 }

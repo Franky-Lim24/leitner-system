@@ -3,8 +3,14 @@ package com.heap21.leitnerbackend;
 import java.util.*;
 
 public interface BoxRepository {
-    int save(Box box);
-    int update(Box box);
-    int deleteById(int id);
-    List<Box> findAll();
+    int saveBox(Box box);
+    int updateBox(Box box);
+    int deleteBoxById(int id);
+    List<Box> findAllBox();
+
+    int saveQuestion(Question question, Box box);
+    int updateQuestion(Question question, Box box);
+    int deleteQuestionById(int question_id, int box_id);
+    List<Question> findAllQuestion();
+    List<Question> findAllQuestionByBox(Box box);
 }
