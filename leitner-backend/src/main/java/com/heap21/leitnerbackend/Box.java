@@ -11,7 +11,7 @@ public class Box {
     private String box_name;
     private int day = 0;
 
-    @OneToMany(mappedBy = "box", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "box_id", cascade = CascadeType.ALL)
     private List<Question> reviews;
 
     // default colour == green and name == untitled
