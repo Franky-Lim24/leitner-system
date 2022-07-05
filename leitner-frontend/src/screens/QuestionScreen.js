@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
-import FlipCard from "react-native-flip-card";
+// import FlipCard from "react-native-flip-card";
 
 function QuestionScreen({ navigation }) {
   return (
@@ -23,7 +23,7 @@ function QuestionScreen({ navigation }) {
         }}
         onPress={() => navigation.navigate("HomeScreen")}
       >
-        <Image source={require("./images/home.png")} />
+        <Image source={require("../images/home.png")} />
       </TouchableOpacity>
       <View
         style={{

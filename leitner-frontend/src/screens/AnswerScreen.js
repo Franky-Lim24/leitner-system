@@ -25,7 +25,8 @@ function AnswerScreen({ navigation }) {
           }}
           onPress={() => navigation.navigate("HomeScreen")}
         >
-          <Image source={require("./images/home.png")} />
+          
+          <Image source={require("../images/home.png")} />
         </TouchableOpacity>
         <View
           style={{
