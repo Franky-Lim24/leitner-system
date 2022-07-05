@@ -18,7 +18,7 @@ const SplashScreen = ({navigation}) => {
                 <Animatable.Image
                 animation="bounceIn"
                 
-                    source={require("../assets/logo.png")}
+                    source={require("../images/logo.png")}
                     style={styles.logo}
                     resizeMode="stretch"
                 />
@@ -28,7 +28,7 @@ const SplashScreen = ({navigation}) => {
                 <Text style={styles.title}>Start Studying</Text>
                 <Text style={styles.text}>Sign in with account</Text>
                 <View style={styles.button}>
-                    <TouchableOpacity onPress={()=>navigation.navigate('SignInScreen')}>
+                    <TouchableOpacity onPress={()=>navigation.navigate('SignIn')}>
                         <LinearGradient
                             colors={["#08d4c4", "#01ab9d"]}
                             style={styles.signIn}

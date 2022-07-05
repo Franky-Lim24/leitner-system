@@ -87,9 +87,7 @@ const ScheduleScreen = ({ navigation }) => {
         // this.data.refresh()
     };
 
-    // this.setState({ 
-    //     refresh: !this.state.refresh
-    // })
+
 
     
 
@@ -200,7 +198,7 @@ const ScheduleScreen = ({ navigation }) => {
                 <Text style={styles.task}>Tasks</Text>
                 <View style={{ flex: 1 }}>
                     <FlatList
-                        extraData={this.state.refresh}
+                        // extraData={this.state.refresh}
                         data={boxArr}
                         renderItem={(itemData) => {
                             return (
