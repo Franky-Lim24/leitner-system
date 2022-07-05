@@ -30,7 +30,7 @@ public class LeitnerBackendApplication implements CommandLineRunner {
 
 	void startBoxApp() {
 		Box Chemistry = new Box();
-		jdbcBoxRepository.save(Chemistry);
+		jdbcBoxRepository.saveBox(Chemistry);
 
 	}
 }
