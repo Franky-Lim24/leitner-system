@@ -68,7 +68,7 @@ function QuestionScreen({ navigation }) {
             alert("Go to Previous Question?");
           }}
         >
-          <Image source={require("./assets/21256.png")} />
+          <Image source={require("../images/21256.png")} />
         </TouchableOpacity>
         <Text
           style={{
@@ -145,7 +145,7 @@ function QuestionScreen({ navigation }) {
           <Button
             color="black"
             title="Show Answer"
-            onPress={() => navigation.navigate("AnswerScreen")}
+            onPress={() => navigation.navigate("FlashCardAnswer")}
           />
         </View>
       </View>
