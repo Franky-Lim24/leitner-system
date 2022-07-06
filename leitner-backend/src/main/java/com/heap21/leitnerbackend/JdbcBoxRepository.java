@@ -27,10 +27,9 @@ public class JdbcBoxRepository implements BoxRepository {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(
-                    "INSERT INTO BOX (COLOUR, BOX_NAME, DAY) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                    "INSERT INTO BOX (COLOUR, BOX_NAME) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, box.getColour());
             ps.setString(2, box.getBox_name());
-            ps.setInt(3, box.getDay());
             return ps;
         }, keyHolder);
 
@@ -61,10 +60,12 @@ public class JdbcBoxRepository implements BoxRepository {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(
-                    "INSERT INTO QUESTION (QUESTION, ANSWER, BOX_ID) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                    "INSERT INTO QUESTION (QUESTION, ANSWER, LEVEL_NO, TEST_DATE, BOX_ID) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, question.getQuestion());
             ps.setString(2, question.getAnswer());
-            ps.setInt(3, box.getBox_id());
+            ps.setInt(3, question.getLevel_no());
+            ps.setDate(4, java.sql.Date.valueOf(question.getTest_date()));
+            ps.setInt(5, box.getBox_id());
             return ps;
         }, keyHolder);
 
