@@ -11,6 +11,7 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import Feather from "react-native-vector-icons/Feather";
+import * as Animatable from "react-native-animatable";
 
 const ScheduleScreen = ({ navigation }) => {
     //  today = new Date();
@@ -32,50 +33,63 @@ const ScheduleScreen = ({ navigation }) => {
 
     var monthName = months[new Date().getMonth()];
     var day = new Date().getDay();
-
-    const [boxArr, setBoxArr] = useState([
+    const colors = ["#BEE0FE", "#FFCECE", "#CCFFD1", "#F3EBC3"];
+    const [boxArr, setBoxArr] = React.useState([
         {
             text: "Revision Box 1",
             id: Math.random().toString(),
             checkCircle: false,
+            color: colors[Math.floor(Math.random() * colors.length)],
         },
         {
             text: "Revision Box 2",
             id: Math.random().toString(),
             checkCircle: false,
+            color: colors[Math.floor(Math.random() * colors.length)],
         },
         {
             text: "Revision Box 3",
             id: Math.random().toString(),
             checkCircle: false,
+            color: colors[Math.floor(Math.random() * colors.length)],
         },
         {
             text: "Revision Box 4",
             id: Math.random().toString(),
             checkCircle: false,
+            color: colors[Math.floor(Math.random() * colors.length)],
         },
         {
             text: "Revision Box 5",
             id: Math.random().toString(),
             checkCircle: false,
+            color: colors[Math.floor(Math.random() * colors.length)],
         },
         {
             text: "Revision Box 6",
             id: Math.random().toString(),
             checkCircle: false,
+            color: colors[Math.floor(Math.random() * colors.length)],
         },
         {
             text: "Revision Box 7",
             id: Math.random().toString(),
             checkCircle: false,
+            color: colors[Math.floor(Math.random() * colors.length)],
         },
     ]);
 
-    const colors = ["#BEE0FE", "#FFCECE", "#CCFFD1", "#F3EBC3"];
-
     function addboxArr(text) {
         setBoxArr((retrievedText) => {
-            [...boxArr, { text: retrievedText, id: Math.random().toString() }];
+            [
+                ...boxArr,
+                {
+                    text: retrievedText,
+                    id: Math.random().toString(),
+                    checkCircle: false,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                },
+            ];
         });
     }
 
@@ -83,13 +97,10 @@ const ScheduleScreen = ({ navigation }) => {
         var box = boxArr.filter((check) => check.id === id);
         box = box[0];
         box.checkCircle = !box.checkCircle;
-        // setBoxArr({...boxArr, checkCircle: box.checkCircle});
-        // this.data.refresh()
+        setBoxArr(() => {
+            return [...boxArr];
+        });
     };
-
-
-
-    
 
     function BoxItem(props) {
         return (
@@ -97,17 +108,17 @@ const ScheduleScreen = ({ navigation }) => {
                 style={[
                     styles.box,
                     {
-                        backgroundColor:
-                            colors[Math.floor(Math.random() * colors.length)],
+                        backgroundColor: props.color,
                     },
                 ]}
             >
                 <View style={styles.boxFlex}>
                     <Text style={styles.boxText}>{props.text}</Text>
+                    {/* <View.Animatable animation="fadeInUpBig"> */}
                     <TouchableOpacity
                         onPress={() => updateCheckCircle(props.id)}
                     >
-                        {boxArr.checkCircle ? (
+                        {props.checkCircle ? (
                             <Feather
                                 name="check-circle"
                                 size={20}
@@ -121,10 +132,13 @@ const ScheduleScreen = ({ navigation }) => {
                             />
                         )}
                     </TouchableOpacity>
+
+                    {/* </View.Animatable> */}
                 </View>
             </View>
         );
     }
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -198,16 +212,19 @@ const ScheduleScreen = ({ navigation }) => {
                 <Text style={styles.task}>Tasks</Text>
                 <View style={{ flex: 1 }}>
                     <FlatList
-                        // extraData={this.state.refresh}
+                        // extraData={boxArr}
                         data={boxArr}
                         renderItem={(itemData) => {
                             return (
                                 <BoxItem
                                     text={itemData.item.text}
                                     id={itemData.item.id}
+                                    checkCircle={itemData.item.checkCircle}
+                                    color={itemData.item.color}
                                 />
                             );
                         }}
+                        keyExtractor={(item) => item.id}
                         alwaysBounceVertical={false}
                     />
                 </View>
