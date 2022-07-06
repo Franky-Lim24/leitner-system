@@ -54,6 +54,7 @@ public class Question {
     }
     public void setLevel_no(int level_no) {
         this.level_no = level_no;
+        this.test_date = this.setTest_date(); 
     }
 
     public LocalDate getTest_date() {

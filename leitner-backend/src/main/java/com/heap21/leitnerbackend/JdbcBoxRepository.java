@@ -7,8 +7,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
+import java.sql.*;
 
 import java.util.*;
 
@@ -76,7 +75,7 @@ public class JdbcBoxRepository implements BoxRepository {
 
     @Override
     public int updateQuestion(Question question, Box box) {
-        return jdbcTemplate.update("UPDATE QUESTION SET QUESTION = ?, ANSWER = ? WHERE QUESTION_ID = ? AND BOX_ID = ?",question.getQuestion(), question.getAnswer(), question.getQuestion_id(), box.getBox_id());
+        return jdbcTemplate.update("UPDATE QUESTION SET QUESTION = ?, ANSWER = ?, LEVEL_NO = ?, TEST_DATE =? WHERE QUESTION_ID = ? AND BOX_ID = ?",question.getQuestion(), question.getAnswer(), question.getLevel_no(), java.sql.Date.valueOf(question.getTest_date()), question.getQuestion_id(), box.getBox_id());
     }
 
     @Override

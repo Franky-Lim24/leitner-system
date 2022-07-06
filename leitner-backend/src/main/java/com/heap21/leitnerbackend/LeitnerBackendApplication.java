@@ -29,8 +29,12 @@ public class LeitnerBackendApplication implements CommandLineRunner {
 	}
 
 	void startBoxApp() {
-		Box Chemistry = new Box();
+		Box Chemistry = new Box("Black", "Chemistry");
 		jdbcBoxRepository.saveBox(Chemistry);
+		Question qn1 = new Question("What is the chemical formula of rust?", "Fe2O3");
+		jdbcBoxRepository.saveQuestion(qn1, Chemistry);
+		qn1.setLevel_no(2);
+		jdbcBoxRepository.updateQuestion(qn1, Chemistry);
 
 	}
 }
