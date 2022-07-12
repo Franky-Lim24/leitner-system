@@ -65,6 +65,12 @@ public class Question {
             return LocalDate.now().plusDays(1);
         } else if (level_no == 2){
             return LocalDate.now().plusDays(2);
+        } else if (level_no == 3){
+            return LocalDate.now().plusDays(4);
+        } else if (level_no == 4){
+            return LocalDate.now().plusDays(8);
+        } else if (level_no == 5){
+            return LocalDate.now().plusDays(16);
         } else {
             System.out.println("Not a valid level");
             return LocalDate.now();

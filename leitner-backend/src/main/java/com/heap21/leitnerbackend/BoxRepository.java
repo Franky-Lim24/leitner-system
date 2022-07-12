@@ -13,4 +13,8 @@ public interface BoxRepository {
     int deleteQuestionById(int question_id, int box_id);
     List<Question> findAllQuestion();
     List<Question> findAllQuestionByBox(Box box);
+
+    void correct(Question question);
+    void wrong(Question question);
+    List<Question> toTest();
 }

@@ -97,4 +97,24 @@ public class JdbcBoxRepository implements BoxRepository {
         List<Question> questions = jdbcTemplate.query(sql, new BeanPropertyRowMapper(Question.class));
         return questions;
     }
+
+    @Override
+    public void correct(Question question) {
+        if (question.getLevel_no() < 5) {
+            question.setLevel_no(question.getLevel_no()++);
+        }
+    }
+
+    @Override
+    public void wrong(Question question) {
+        if (question.getLevel_no() > 1) {
+            question.setLevel_no(question.getLevel_no()--);
+    }
+
+    @Override
+    public List<Question> toTest() {
+        String sql = "SELECT * FROM QUESTION WHERE test_date = CURDATE() ORDER BY level_no;";
+        List<Question> questions = jdbcTemplate.query(sql, new BeanPropertyRowMapper(Question.class));
+        return questions;
+    }
 }
