@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.util.*;
 
 @SpringBootApplication
 public class LeitnerBackendApplication implements CommandLineRunner {
@@ -29,12 +30,22 @@ public class LeitnerBackendApplication implements CommandLineRunner {
 	}
 
 	void startBoxApp() {
-		Box Chemistry = new Box("Black", "Chemistry");
+		Box Chemistry = new Box("Black", "History");
 		jdbcBoxRepository.saveBox(Chemistry);
-		Question qn1 = new Question("What is the chemical formula of rust?", "Fe2O3");
+		Question qn1 = new Question("What year did Singapore gain independence?", "1965");
 		jdbcBoxRepository.saveQuestion(qn1, Chemistry);
-		qn1.setLevel_no(2);
-		jdbcBoxRepository.updateQuestion(qn1, Chemistry);
-
+		jdbcBoxRepository.correct(qn1); 
+		Question qn2 = new Question("Who was Singapore's first PM?", "Lee Kuan Yew");
+		jdbcBoxRepository.saveQuestion(qn2, Chemistry);
+		Question qn3 = new Question("What year was 'Home' by Kit Chan released?", "1998");
+		jdbcBoxRepository.saveQuestion(qn3, Chemistry);
+		Question qn4 = new Question("What year did Singapore gain independence?", "1965");
+		jdbcBoxRepository.saveQuestion(qn4, Chemistry);
+		
+		List<Question> todayQuestions = jdbcBoxRepository.toTest();
+		for (Question q: todayQuestions) {
+			System.out.println("Question: "+ q.getQuestion());
+			System.out.println("Answer: " + q.getAnswer());
+		}
 	}
 }

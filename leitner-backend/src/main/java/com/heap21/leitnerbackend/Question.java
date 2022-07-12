@@ -1,6 +1,9 @@
 package com.heap21.leitnerbackend;
 
 import javax.persistence.*;
+
+import jnr.constants.platform.Local;
+
 import java.time.LocalDate;
 
 @Entity
@@ -19,13 +22,13 @@ public class Question {
     public Question() {
         this.question = "Untitled";
         this.answer = "Untitled";
-        this.setTest_date();
+        this.setTest_date(LocalDate.now());
     }
 
     public Question(String question, String answer) {
         this.question = question;
         this.answer = answer;
-        this.test_date = this.setTest_date();
+        this.setTest_date(LocalDate.now());
     }
 
     public int getQuestion_id() {
@@ -75,5 +78,8 @@ public class Question {
             System.out.println("Not a valid level");
             return LocalDate.now();
         }
+    }
+    public void setTest_date(LocalDate test_date) {
+        this.test_date = test_date;
     }
 }

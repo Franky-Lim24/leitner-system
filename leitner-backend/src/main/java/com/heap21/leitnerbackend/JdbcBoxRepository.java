@@ -101,14 +101,17 @@ public class JdbcBoxRepository implements BoxRepository {
     @Override
     public void correct(Question question) {
         if (question.getLevel_no() < 5) {
-            question.setLevel_no(question.getLevel_no()++);
+            int level_no = question.getLevel_no();
+            question.setLevel_no(level_no++);
         }
     }
 
     @Override
     public void wrong(Question question) {
         if (question.getLevel_no() > 1) {
-            question.setLevel_no(question.getLevel_no()--);
+            int level_no = question.getLevel_no();
+            question.setLevel_no(level_no--);
+        }
     }
 
     @Override
