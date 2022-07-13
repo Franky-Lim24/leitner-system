@@ -196,7 +196,6 @@ const styles = StyleSheet.create({
     },
 
     Title: {
-      fontFamily: "Montserrat",
       fontSize: 35,
       fontWeight: "bold",
       color: "white",
@@ -206,14 +205,12 @@ const styles = StyleSheet.create({
     },
 
     Subtitle: {
-      fontFamily: "Montserrat",
       fontSize: 20,
       fontWeight: "bold",
       color: "black",
     },
 
     Body: {
-      fontFamily: "Montserrat",
       fontSize: 15,
       color: "black",
 

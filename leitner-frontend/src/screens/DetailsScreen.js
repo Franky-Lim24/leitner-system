@@ -172,7 +172,6 @@ function DetailsScreen({navigation}) {
     },
 
     Title: {
-      fontFamily: "Montserrat",
       fontSize: 35,
       fontWeight: "bold",
       color: "white",
@@ -180,14 +179,12 @@ function DetailsScreen({navigation}) {
     },
 
     Subtitle: {
-      fontFamily: "Montserrat",
       fontSize: 20,
       fontWeight: "bold",
       color: "black",
     },
 
     Body: {
-      fontFamily: "Montserrat",
       fontSize: 15,
       color: "black",
     },
