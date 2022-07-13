@@ -8,31 +8,37 @@ import {
     Platform,
     TextInput,
     Pressable,
+    useEffect,
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { LinearGradient } from "expo-linear-gradient";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
+import axios from "axios";
 
-const SignInScreen = ({navigation}) => {
+const baseUrl = "https://heap-leitner.uc.r.appspot.com/";
+
+const SignInScreen = ({ navigation }) => {
     const [data, setData] = React.useState({
-        email: "",
+        username: "",
         password: "",
         check_textInputChange: false,
         secureTextEntry: true,
     });
 
+    const [success, setSuccess] = React.useState(false);
+    var allUserInfo = [];
     const textInputChange = (val) => {
         if (val.length !== 0) {
             setData({
                 ...data,
-                email: val,
+                username: val,
                 check_textInputChange: true,
             });
         } else {
             setData({
                 ...data,
-                email: val,
+                username: val,
                 check_textInputChange: false,
             });
         }
@@ -51,6 +57,40 @@ const SignInScreen = ({navigation}) => {
             secureTextEntry: !data.secureTextEntry,
         });
     };
+
+    axios({
+        method: "get",
+        url: baseUrl,
+    }).then((response) => {});
+
+    React.useEffect(() => {
+        console.log("useeffect");
+        userLoginInfo();
+    });
+
+    const userLoginInfo = async () => {
+        console.log("userloginreached");
+        axios.get(baseUrl).then((response) => {
+            // console.log(response.data);
+            allUserInfo = response.data;
+            // console.log(allUserInfo[0].password);
+        });
+    };
+
+    const handleSignIn = async (e) => {
+        console.log("handleSignIn reached");
+        // console.log(data.email, data.password);
+        data.username = "john";
+        data.password = "$2a$10$23WdaMMbbPfp9ltCaYxwwuYodNhRKuaJ1zG7o59A7WPUFmVWZtz4K";
+        e.preventDefault();
+        for(let userInfo of allUserInfo){
+            if(userInfo.username === data.username && userInfo.password === data.password){
+                console.log("success");
+            }
+        }
+        
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -105,12 +145,15 @@ const SignInScreen = ({navigation}) => {
                         colors={["#6e7efa", "#5568f9"]}
                         style={styles.signIn}
                     >
-                        <Text style={[styles.textSign, { color: "#fff" }]}>
-                            Sign In
-                        </Text>
+                        <TouchableOpacity onPress={handleSignIn}>
+                            <Text style={[styles.textSign, { color: "#fff" }]}>
+                                Sign In
+                            </Text>
+                        </TouchableOpacity>
                     </LinearGradient>
+
                     <TouchableOpacity
-                        onPress={()=>navigation.navigate('SignUp')}
+                        onPress={() => navigation.navigate("SignUp")}
                         style={[
                             styles.signIn,
                             {
