@@ -9,6 +9,7 @@ import {
     TextInput,
     Pressable,
     useEffect,
+    Alert,
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { LinearGradient } from "expo-linear-gradient";
@@ -81,18 +82,29 @@ const SignInScreen = ({ navigation }) => {
         console.log("handleSignIn reached");
         // console.log(data.email, data.password);
         data.username = "john";
-        data.password = "$2a$10$23WdaMMbbPfp9ltCaYxwwuYodNhRKuaJ1zG7o59A7WPUFmVWZtz4K";
+        data.password =
+            "$2a$10$23WdaMMbbPfp9ltCaYxwwuYodNhRKuaJ1zG7o59A7WPUFmVWZtz4K";
         e.preventDefault();
-        for(let userInfo of allUserInfo){
-            if(userInfo.username === data.username && userInfo.password === data.password){
-                console.log("success");
+        for (let userInfo of allUserInfo) {
+            if (
+                userInfo.username === data.username &&
+                userInfo.password === data.password
+            ) {
+                setSuccess(true);
+                navigation.navigate("HomeScreen");
             }
         }
-        
+        // if (!success) {
+        // () => {
+            Alert.alert("Login Failed", "Username or password is wrong");
+        // };
+        console.log("fail");
+        // }
     };
 
     return (
         <View style={styles.container}>
+            <View></View>
             <View style={styles.header}>
                 <Text style={styles.text_header}>Welcome</Text>
             </View>
