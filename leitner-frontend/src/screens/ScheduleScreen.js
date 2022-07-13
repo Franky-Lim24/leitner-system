@@ -1,4 +1,6 @@
 import React from "react";
+import { Icon } from "@rneui/themed";
+
 import {
     View,
     Text,
@@ -142,8 +144,17 @@ const ScheduleScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                {/* <View></View> */}
-                <Text style={styles.date}>
+                <TouchableOpacity 
+                    style={{position: "absolute", top: 60, left:35}}
+                    onPress={() => navigation.navigate("HomeScreen")}>
+                        <Icon 
+                        name="home" 
+                        type="simple-line-icon" 
+                        color="#FFFFFF"
+                        size={30}
+                        />
+                </TouchableOpacity>
+                <Text style={[styles.date]}>
                     {monthName} {new Date().getFullYear()}
                 </Text>
                 <View style={styles.dateCarosell}>
@@ -151,7 +162,7 @@ const ScheduleScreen = ({ navigation }) => {
                         colors={["#99a4fb", "#99a4fb"]}
                         style={styles.dateBox}
                     >
-                        <Text style={styles.dateBoxText}>
+                        <Text style={[styles.dateBoxText]}>
                             {new Date().getDate() - 2}
                         </Text>
                         <Text style={styles.dateBoxText}>
@@ -259,6 +270,8 @@ const styles = StyleSheet.create({
         fontSize: 30,
         color: "#fff",
         paddingTop: 50,
+        left:110,
+        top: 10
     },
     dateCarosell: {
         flexDirection: "row",
