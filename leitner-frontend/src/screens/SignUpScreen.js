@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
     View,
     Text,
@@ -8,33 +8,37 @@ import {
     Platform,
     TextInput,
     Pressable,
+    Alert,
 } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { LinearGradient } from "expo-linear-gradient";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
+import axios from "axios";
 
-const SignInScreen = ({navigation}) => {
+const baseUrl = "https://heap-leitner.uc.r.appspot.com/";
+
+const SignInScreen = ({ navigation }) => {
     const [data, setData] = React.useState({
-        email: "",
+        username: "",
         password: "",
-        confirm_password:"",
+        confirm_password: "",
         check_textInputChange: false,
         secureTextEntry: true,
-        confirm_secureTextEntry:true,
+        confirm_secureTextEntry: true,
     });
 
     const textInputChange = (val) => {
         if (val.length !== 0) {
             setData({
                 ...data,
-                email: val,
+                username: val,
                 check_textInputChange: true,
             });
         } else {
             setData({
                 ...data,
-                email: val,
+                username: val,
                 check_textInputChange: false,
             });
         }
@@ -67,10 +71,45 @@ const SignInScreen = ({navigation}) => {
             confirm_password: val,
         });
     };
+    const [loginInfo, setLoginInfo] = React.useState([]);
+    useEffect(() => {
+        const getLoginInfo = async () => {
+            const { data: res } = await axios.get(baseUrl);
+            setLoginInfo(res);
+            // console.log("hi");
+            // console.log(loginInfo);
+        };
+        getLoginInfo();
+    }, []);
 
-
-
-
+    const handleSignUp = async (e) => {
+        e.preventDefault();
+        // console.log(loginInfo);
+        var largestAccId = 0;
+        for (let userInfo of loginInfo) {
+            if (userInfo.account_id > largestAccId) {
+                largestAccId = userInfo.account_id;
+            }
+        }
+        console.log(largestAccId);
+        if (data.password !== data.confirm_password) {
+            Alert.alert("Sign Up Failed", "Password mismatch");
+        } else {
+            const info = {
+                account_id: largestAccId + 1,
+                username: data.username,
+                password: data.password,
+            };
+            try{
+                console.log("entered");
+                await axios.post(baseUrl, info);
+            }catch(err){
+                console.log(err);
+            }
+            
+            
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -129,7 +168,9 @@ const SignInScreen = ({navigation}) => {
                     <FontAwesome name="lock" color="#05375a" size={20} />
                     <TextInput
                         placeholder="Confirm Password"
-                        secureTextEntry={data.confirm_secureTextEntry ? true : false}
+                        secureTextEntry={
+                            data.confirm_secureTextEntry ? true : false
+                        }
                         style={styles.textInput}
                         autoCapitalize="none"
                         onChangeText={(val) => handleConfirmPasswordChange(val)}
@@ -148,13 +189,15 @@ const SignInScreen = ({navigation}) => {
                         colors={["#6e7efa", "#5568f9"]}
                         style={styles.signIn}
                     >
-                        <Text style={[styles.textSign, { color: "#fff" }]}>
-                            Sign Up
-                        </Text>
+                        <TouchableOpacity onPress={handleSignUp}>
+                            <Text style={[styles.textSign, { color: "#fff" }]}>
+                                Sign Up
+                            </Text>
+                        </TouchableOpacity>
                     </LinearGradient>
 
                     <TouchableOpacity
-                        onPress={()=>navigation.goBack()}
+                        onPress={() => navigation.goBack()}
                         style={[
                             styles.signIn,
                             {
