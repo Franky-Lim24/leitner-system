@@ -105,9 +105,7 @@ const SignInScreen = ({ navigation }) => {
                 await axios.post(baseUrl, info);
             }catch(err){
                 console.log(err);
-            }
-            
-            
+            }   
         }
     };
 
@@ -118,11 +116,11 @@ const SignInScreen = ({ navigation }) => {
             </View>
 
             <Animatable.View style={styles.footer} animation="fadeInUpBig">
-                <Text style={styles.text_footer}>Email</Text>
+                <Text style={styles.text_footer}>Username</Text>
                 <View style={styles.action}>
                     <FontAwesome name="user-o" color="#05375a" size={20} />
                     <TextInput
-                        placeholder="Your Email"
+                        placeholder="Your username"
                         style={styles.textInput}
                         autoCapitalize="none"
                         onChangeText={(val) => textInputChange(val)}
