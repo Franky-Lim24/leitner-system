@@ -27,7 +27,8 @@ const SignInScreen = ({ navigation }) => {
         secureTextEntry: true,
     });
 
-    const [success, setSuccess] = React.useState(false);
+    // const [success, setSuccess] = React.useState(false);
+    var success = false;
     var allUserInfo = [];
     const textInputChange = (val) => {
         if (val.length !== 0) {
@@ -65,17 +66,22 @@ const SignInScreen = ({ navigation }) => {
     }).then((response) => {});
 
     React.useEffect(() => {
-        console.log("useeffect");
+        // console.log("useeffect");
         userLoginInfo();
     });
 
     const userLoginInfo = async () => {
-        console.log("userloginreached");
-        axios.get(baseUrl).then((response) => {
-            // console.log(response.data);
-            allUserInfo = response.data;
-            // console.log(allUserInfo[0].password);
-        });
+        // console.log("userloginreached");
+        axios
+            .get(baseUrl)
+            .then((response) => {
+                // console.log(response.data);
+                allUserInfo = response.data;
+                // console.log(allUserInfo[0].password);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
     const handleSignIn = async (e) => {
@@ -90,16 +96,15 @@ const SignInScreen = ({ navigation }) => {
                 userInfo.username === data.username &&
                 userInfo.password === data.password
             ) {
-                setSuccess(true);
-                navigation.navigate("HomeScreen");
+                success = true;
+                break;
             }
         }
-        // if (!success) {
-        // () => {
+        if (!success) {
             Alert.alert("Login Failed", "Username or password is wrong");
-        // };
-        console.log("fail");
-        // }
+        } else {
+            navigation.navigate("HomeScreen");
+        }
     };
 
     return (
