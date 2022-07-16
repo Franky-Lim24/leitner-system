@@ -1,14 +1,13 @@
-package com.heap21.leitnerbackend;
+package com.heap21.leitnerbackend.model;
 
 import javax.persistence.*;
-
-import jnr.constants.platform.Local;
 
 import java.time.LocalDate;
 
 @Entity
 public class Question {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private int question_id;
     private String question;
     private String answer;
@@ -34,6 +33,7 @@ public class Question {
     public int getQuestion_id() {
         return question_id;
     }
+
     public void setQuestion_id(int question_id) {
         this.question_id = question_id;
     }
@@ -41,6 +41,7 @@ public class Question {
     public String getQuestion() {
         return question;
     }
+
     public void setQuestion(String question) {
         this.question = question;
     }
@@ -48,6 +49,7 @@ public class Question {
     public String getAnswer() {
         return answer;
     }
+
     public void setAnswer(String answer) {
         this.answer = answer;
     }
@@ -55,30 +57,33 @@ public class Question {
     public int getLevel_no() {
         return level_no;
     }
+
     public void setLevel_no(int level_no) {
         this.level_no = level_no;
-        this.test_date = this.setTest_date(); 
+        this.test_date = this.setTest_date();
     }
 
     public LocalDate getTest_date() {
         return test_date;
     }
+
     public LocalDate setTest_date() {
         if (level_no == 1) {
             return LocalDate.now().plusDays(1);
-        } else if (level_no == 2){
+        } else if (level_no == 2) {
             return LocalDate.now().plusDays(2);
-        } else if (level_no == 3){
+        } else if (level_no == 3) {
             return LocalDate.now().plusDays(4);
-        } else if (level_no == 4){
+        } else if (level_no == 4) {
             return LocalDate.now().plusDays(8);
-        } else if (level_no == 5){
+        } else if (level_no == 5) {
             return LocalDate.now().plusDays(16);
         } else {
             System.out.println("Not a valid level");
             return LocalDate.now();
         }
     }
+
     public void setTest_date(LocalDate test_date) {
         this.test_date = test_date;
     }

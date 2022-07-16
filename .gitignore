@@ -46,3 +46,7 @@ Thumbs.db
 #installer
 out
 leitner-backend/src/main/resources/application.properties
+leitner-backend/src/main/resources/client-keys-springdev.json
+leitner-backend/src/main/resources/client-keys-springdev.json
+leitner-backend/src/main/resources/client-keys-springdev.json
+leitner-backend/src/main/resources/client-keys.json

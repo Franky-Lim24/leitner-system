@@ -1,0 +1,8 @@
+runtime: java17
+instance_class: F1
+beta_settings:
+  cloud_sql_instances: heap-leitner:asia-southeast1:leitner-system
+env_variables:
+  MYSQL_DSN: mysql:unix_socket=/cloudsql/heap-leitner:asia-southeast1:leitner-system;dbname=leitner-system
+  MYSQL_USER: root
+  MYSQL_PASSWORD: '12345'
