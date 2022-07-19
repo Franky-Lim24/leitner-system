@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Button, SafeAreaView, Dimensions, Image, TouchableOpacity, Keyboard, TextInput, FlatList } from 'react-native';
 import { Icon } from "@rneui/themed";
 import { NavigationContainer } from '@react-navigation/native';
+import axios from "axios";
 
-
+const baseUrl = "https://heap-leitner.uc.r.appspot.com/"; 
 
 function HomeScreen({navigation}) {
 

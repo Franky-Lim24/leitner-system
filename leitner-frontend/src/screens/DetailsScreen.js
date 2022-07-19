@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Button, SafeAreaView, Image, TouchableOpacity, Keyboard, TextInput, FlatList } from 'react-native';
+import { View, Text, StyleSheet, Button, SafeAreaView, Image, TouchableOpacity, Keyboard, TextInput, FlatList, Animated } from 'react-native';
 import { Icon } from "@rneui/themed";
 import { NavigationContainer } from '@react-navigation/native';
 import { format } from 'react-string-format'; //npm install
@@ -82,7 +82,7 @@ function DetailsScreen({navigation}) {
         </View>
 
         <View style={[styles.BackgroundRectangle]}>
-          <Text style={[styles.Body, {fontSize: 17, position:"absolute", left: 35, top: 30, color:"grey"}]}>
+          {/* <Text style={[styles.Body, {fontSize: 17, position:"absolute", left: 35, top: 30, color:"grey"}]}>
             Box  
           </Text>
           <Text style={[styles.Body, {fontSize: 17, position:"absolute", left: 35, top: 51, color:"grey"}]}>
@@ -93,7 +93,7 @@ function DetailsScreen({navigation}) {
           <TouchableOpacity style={[styles.Circle, {backgroundColor: "#56BA60", position:"absolute", left: 170, top: 30}]}/>
           <TouchableOpacity style={[styles.Circle, {backgroundColor: "#EFDD85", position:"absolute", left: 220, top: 30}]}/>
           <TouchableOpacity style={[styles.Circle, {backgroundColor: "#799DFA", position:"absolute", left: 270, top: 30}]}/>
-          <TouchableOpacity style={[styles.Circle, {backgroundColor: "#D879FA", position:"absolute", left: 320, top: 30}]}/>
+          <TouchableOpacity style={[styles.Circle, {backgroundColor: "#D879FA", position:"absolute", left: 320, top: 30}]}/> */}
 
           {/* <Text style={[styles.Body, {fontSize: 17, position:"absolute", left: 35, top: 100, color:"grey"}]}>
             Deadline:
@@ -102,7 +102,7 @@ function DetailsScreen({navigation}) {
           <TouchableOpacity style={[styles.Whitebox, styles.shadowProp, {width:235, height: 40, position: "absolute", left: 120, top: 90}]}> 
           </TouchableOpacity>
  */}
-          <View style={{height: 400, width: 330, borderRadius: 10, position: "absolute",left: 35, top: 100}}>
+          <View style={{height: 475, width: 330, borderRadius: 10, position: "absolute",left: 35, top: 40, }}>
             {QuestionData && (
               <FlatList
                 data={QuestionData}
