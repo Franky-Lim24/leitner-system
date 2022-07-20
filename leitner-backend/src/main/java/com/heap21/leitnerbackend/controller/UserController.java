@@ -46,12 +46,6 @@ public class UserController {
         return ResponseEntity.created(uri).body(userService.saveUser(user));
     }
 
-    @PostMapping("/user/login")
-    public ResponseEntity<UsersDTO> logIn(@RequestBody Users user) {
-        UsersDTO usersDTO = userService.getUser(user.getUsername());
-        return ResponseEntity.ok().body(usersDTO);
-    }
-
     @GetMapping("/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
