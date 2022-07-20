@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const axiosInstance = axios.create({
 	baseURL: 'https://heap-leitner.uc.r.appspot.com',
+	headers: { 'Content-Type': 'application/json' },
 });
 
 axiosInstance.interceptors.request.use(

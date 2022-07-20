@@ -19,21 +19,14 @@ export default function App() {
 	return (
 		<NavigationContainer>
 			<Stack.Navigator screenOptions={{ headerShown: false }}>
-				<Stack.Screen name="Splash" component={SplashScreen} />
-				<Stack.Screen name="SignIn" component={SignInScreen} />
-				<Stack.Screen name="SignUp" component={SignUpScreen} />
-				{/* <Stack.Screen name="Schedule" component={ScheduleScreen} /> */}
-				{/* <Stack.Screen name="SignUpScreen" component={SignUpScreen}/> */}
-
-				{/* <Stack.Screen name="SignInScreen" component={SignInScreen}/> */}
+				<Stack.Screen name="SplashScreen" component={SplashScreen} />
+				<Stack.Screen name="SignInScreen" component={SignInScreen} />
+				<Stack.Screen name="SignUpScreen" component={SignUpScreen} />
 				<Stack.Screen name="HomeScreen" component={HomeScreen} />
 				<Stack.Screen name="DetailsScreen" component={DetailsScreen} />
 				<Stack.Screen name="ScheduleScreen" component={ScheduleScreen} />
-
-				<Stack.Screen name="SplashScreen" component={SplashScreen} />
-				<Stack.Screen name="FlashCardQuestion" component={QuestionScreen} />
-				<Stack.Screen name="FlashCardAnswer" component={AnswerScreen} />
 				<Stack.Screen name="QuestionScreen" component={QuestionScreen} />
+				<Stack.Screen name="AnswerScreen" component={AnswerScreen} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);

@@ -18,6 +18,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,11 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api")
 public class UserController {
     private final UserService userService;
+
+    @GetMapping("/user/{username}")
+    public ResponseEntity<UsersDTO> getUser(@PathVariable String username) {
+        return ResponseEntity.ok().body(userService.getUser(username));
+    }
 
     @GetMapping("/users")
     public ResponseEntity<List<Users>> getUsers() {

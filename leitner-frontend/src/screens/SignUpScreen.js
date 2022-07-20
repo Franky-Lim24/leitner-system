@@ -1,25 +1,20 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
 	View,
 	Text,
 	StyleSheet,
 	TouchableOpacity,
-	Dimensions,
 	Platform,
 	TextInput,
-	Pressable,
 	Alert,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { LinearGradient } from 'expo-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-import axios from 'axios';
-import { SignIn } from '../services/authService';
+import { SignUp, SignIn } from '../services/authService';
 
-const baseUrl = 'https://heap-leitner.uc.r.appspot.com/';
-
-const SignInScreen = ({ navigation }) => {
+const SignUpScreen = ({ navigation }) => {
 	const [data, setData] = React.useState({
 		username: '',
 		password: '',
@@ -52,14 +47,14 @@ const SignInScreen = ({ navigation }) => {
 		});
 	};
 
-	const updateSecureTextEntry = (navigation) => {
+	const updateSecureTextEntry = () => {
 		setData({
 			...data,
 			secureTextEntry: !data.secureTextEntry,
 		});
 	};
 
-	const updateConfirmSecureTextEntry = (navigation) => {
+	const updateConfirmSecureTextEntry = () => {
 		setData({
 			...data,
 			confirm_secureTextEntry: !data.confirm_secureTextEntry,
@@ -72,40 +67,29 @@ const SignInScreen = ({ navigation }) => {
 			confirm_password: val,
 		});
 	};
-	const [loginInfo, setLoginInfo] = React.useState([]);
-	useEffect(() => {
-		const getLoginInfo = async () => {
-			const { data: res } = await axios.get(baseUrl);
-			setLoginInfo(res);
-			// console.log("hi");
-			// console.log(loginInfo);
-		};
-		getLoginInfo();
-	}, []);
 
 	const handleSignUp = async (e) => {
 		e.preventDefault();
-		// console.log(loginInfo);
-		var largestAccId = 0;
-		for (let userInfo of loginInfo) {
-			if (userInfo.account_id > largestAccId) {
-				largestAccId = userInfo.account_id;
-			}
-		}
-		console.log(largestAccId);
 		if (data.password !== data.confirm_password) {
 			Alert.alert('Sign Up Failed', 'Password mismatch');
 		} else {
 			const info = {
-				account_id: largestAccId + 1,
 				username: data.username,
 				password: data.password,
 			};
+			console.log(info);
 			try {
-				console.log('entered');
-				await axios.post(baseUrl, info);
+				const res = await SignUp(info);
+				console.log(res);
+				if (res) {
+					const isLoggedIn = await SignIn(info);
+					console.log(isLoggedIn);
+					if (isLoggedIn) {
+						navigation.navigate('HomeScreen');
+					}
+				}
 			} catch (err) {
-				console.log(err);
+				alert(err);
 			}
 		}
 	};
@@ -176,11 +160,14 @@ const SignInScreen = ({ navigation }) => {
 				</View>
 
 				<View style={styles.button}>
-					<LinearGradient colors={['#6e7efa', '#5568f9']} style={styles.signIn}>
-						<TouchableOpacity onPress={handleSignUp}>
+					<TouchableOpacity onPress={handleSignUp} style={{ width: '100%' }}>
+						<LinearGradient
+							colors={['#6e7efa', '#5568f9']}
+							style={styles.signIn}
+						>
 							<Text style={[styles.textSign, { color: '#fff' }]}>Sign Up</Text>
-						</TouchableOpacity>
-					</LinearGradient>
+						</LinearGradient>
+					</TouchableOpacity>
 
 					<TouchableOpacity
 						onPress={() => navigation.goBack()}
@@ -201,7 +188,8 @@ const SignInScreen = ({ navigation }) => {
 	);
 };
 
-export default SignInScreen;
+export default SignUpScreen;
+
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,

@@ -1,31 +1,19 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
 	View,
 	Text,
 	StyleSheet,
 	TouchableOpacity,
-	Dimensions,
 	Platform,
 	TextInput,
-	Pressable,
-	Alert,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { LinearGradient } from 'expo-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-import axios from 'axios';
 import { SignIn } from '../services/authService';
-const baseUrl = 'https://heap-leitner.uc.r.appspot.com/';
 
 const SignInScreen = ({ navigation }) => {
-	useEffect(() => {
-		async function signIn() {
-			const res = await SignIn({ username: 'john', password: '1234' });
-		}
-		signIn();
-	}, []);
-
 	const [data, setData] = React.useState({
 		username: '',
 		password: '',
@@ -33,9 +21,6 @@ const SignInScreen = ({ navigation }) => {
 		secureTextEntry: true,
 	});
 
-	// const [success, setSuccess] = React.useState(false);
-	var success = false;
-	var allUserInfo = [];
 	const textInputChange = (val) => {
 		if (val.length !== 0) {
 			setData({
@@ -66,38 +51,18 @@ const SignInScreen = ({ navigation }) => {
 		});
 	};
 
-	axios({
-		method: 'get',
-		url: baseUrl,
-	}).then((response) => {});
-
-	React.useEffect(() => {
-		// console.log("useeffect");
-		userLoginInfo();
-	});
-
-	const userLoginInfo = async () => {
-		// console.log("userloginreached");
-		axios
-			.get(baseUrl)
-			.then((response) => {
-				// console.log(response.data);
-				allUserInfo = response.data;
-				// console.log(allUserInfo[0].password);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	};
-
 	const handleSignIn = async (e) => {
-		const res = await SignIn({
-			username: data.username,
-			password: data.password,
-		});
-		if (res.status === 200) {
-			navigation.navigate('HomeScreen');
-		} else {
+		try {
+			const isLoggedIn = await SignIn({
+				username: data.username,
+				password: data.password,
+			});
+			if (isLoggedIn) {
+				navigation.navigate('HomeScreen');
+			} else {
+				alert('Invalid username or password');
+			}
+		} catch (e) {
 			alert('Invalid username or password');
 		}
 	};
@@ -157,7 +122,7 @@ const SignInScreen = ({ navigation }) => {
 					</TouchableOpacity>
 
 					<TouchableOpacity
-						onPress={() => navigation.navigate('SignUp')}
+						onPress={() => navigation.navigate('SignUpScreen')}
 						style={[
 							styles.signIn,
 							{
