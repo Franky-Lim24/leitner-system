@@ -1,5 +1,6 @@
 package com.heap21.leitnerbackend.controller;
 
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,5 +45,10 @@ public class BoxController {
     @GetMapping
     public ResponseEntity<Iterable<Box>> getAllBoxes() {
         return new ResponseEntity<Iterable<Box>>(boxService.findAllBox(), HttpStatus.OK);
+    }
+
+    @GetMapping("/tasks")
+    public ResponseEntity<List<Box>> getTasks() {
+        return new ResponseEntity<List<Box>>(boxService.getTasks(), HttpStatus.OK);
     }
 }

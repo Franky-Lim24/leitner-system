@@ -1,11 +1,14 @@
 package com.heap21.leitnerbackend.service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import com.heap21.leitnerbackend.model.Box;
+import com.heap21.leitnerbackend.model.Question;
 import com.heap21.leitnerbackend.repo.BoxRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,5 +56,22 @@ public class BoxService {
 
     public Box getBox(int box_id) {
         return boxRepo.findById(box_id).get();
+    }
+
+    public List<Box> getTasks() {
+        List<Box> boxes = boxRepo.findAll();
+        List<Box> tasks = new ArrayList<>();
+        for (Box b : boxes) {
+            if (!b.getUsername().equals(getUsername())) {
+                boxes.remove(b);
+            } else {
+                for (Question q : b.getReviews()) {
+                    if (q.getTest_date().isEqual(LocalDate.now()) && !tasks.contains(b)) {
+                        tasks.add(b);
+                    }
+                }
+            }
+        }
+        return tasks;
     }
 }

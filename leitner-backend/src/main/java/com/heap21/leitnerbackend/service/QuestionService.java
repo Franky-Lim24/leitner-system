@@ -18,11 +18,12 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final BoxService boxService;
 
-    public Question saveQuestion(Question question, int box_id) {
+    public List<Question> saveQuestion(List<Question> questions, int box_id) {
         log.info("Saving new question to the database");
         Box box = boxService.getBox(box_id);
-        question.setBox(box);
-        return questionRepository.save(question);
+        for (Question question : questions)
+            question.setBox(box);
+        return questionRepository.saveAll(questions);
     }
 
     public Question updateQuestion(Question question) {

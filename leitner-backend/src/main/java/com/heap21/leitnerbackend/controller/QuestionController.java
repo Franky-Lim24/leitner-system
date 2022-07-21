@@ -22,9 +22,9 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @PostMapping("/{boxId}")
-    public ResponseEntity<Question> createQuestion(@RequestBody Question question,
+    public ResponseEntity<List<Question>> createQuestion(@RequestBody List<Question> question,
             @PathVariable("boxId") int boxId) {
-        return new ResponseEntity<Question>(questionService.saveQuestion(question, boxId),
+        return new ResponseEntity<List<Question>>(questionService.saveQuestion(question, boxId),
                 HttpStatus.CREATED);
     }
 
