@@ -1,0 +1,48 @@
+package com.heap21.leitnerbackend.controller;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import com.heap21.leitnerbackend.model.Box;
+import com.heap21.leitnerbackend.service.BoxService;
+import lombok.RequiredArgsConstructor;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/box")
+public class BoxController {
+    private final BoxService boxService;
+
+    @PostMapping
+    public ResponseEntity<Box> createBox(@RequestBody Box box) {
+        return new ResponseEntity<Box>(boxService.saveBox(box), HttpStatus.CREATED);
+    }
+
+    @PutMapping
+    public ResponseEntity<Box> updateBox(@RequestBody Box box) {
+        return new ResponseEntity<Box>(boxService.updateBox(box), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Box> deleteBoxById(@PathVariable("id") int id) {
+        boxService.deleteBoxById(id);
+        return new ResponseEntity<Box>(HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Box> getBoxById(@PathVariable("id") int id) {
+        return new ResponseEntity<Box>(boxService.getBox(id), HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<Iterable<Box>> getAllBoxes() {
+        return new ResponseEntity<Iterable<Box>>(boxService.findAllBox(), HttpStatus.OK);
+    }
+}

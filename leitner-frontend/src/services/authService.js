@@ -36,8 +36,8 @@ const LogOut = async () => {
 
 const GetName = async () => {
 	const name = await AsyncStorage.getItem('name');
-	console.log(name.toString());
-	return name.toString() || 'Guest';
+	if (!name) name = '';
+	return name.toString();
 };
 
 export { SignIn, SignUp, LogOut, GetName };

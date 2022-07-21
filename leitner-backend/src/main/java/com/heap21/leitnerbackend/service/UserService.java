@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.heap21.leitnerbackend.dto.UsersDTO;
 import com.heap21.leitnerbackend.model.Users;
-import com.heap21.leitnerbackend.repo.UserRepo;
+import com.heap21.leitnerbackend.repo.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 @Slf4j
 public class UserService implements UserDetailsService {
-    private final UserRepo userRepo;
+    private final UserRepository userRepo;
     private final PasswordEncoder passwordEncoder;
 
     @Override

@@ -1,10 +1,12 @@
 package com.heap21.leitnerbackend.model;
 
 import javax.persistence.*;
-
+import lombok.Data;
 import java.time.LocalDate;
 
 @Entity
+@Data
+@Table(name = "Question")
 public class Question {
     @Id
     @GeneratedValue
