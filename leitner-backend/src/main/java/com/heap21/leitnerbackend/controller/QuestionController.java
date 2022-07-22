@@ -31,7 +31,7 @@ public class QuestionController {
     @PutMapping
     public ResponseEntity<Question> updateQuestion(@RequestBody Question question) {
         return new ResponseEntity<Question>(questionService.updateQuestion(question),
-                HttpStatus.OK);
+               HttpStatus.OK); 
     }
 
     @DeleteMapping("/{id}")
@@ -39,7 +39,7 @@ public class QuestionController {
         questionService.deleteQuestionById(id);
         return new ResponseEntity<Question>(HttpStatus.OK);
     }
-
+ 
     @GetMapping("/{id}")
     public ResponseEntity<List<Question>> getQuestionById(@PathVariable("id") int id) {
         return new ResponseEntity<List<Question>>(questionService.findAllQuestionByBox(id),
@@ -51,4 +51,12 @@ public class QuestionController {
         return new ResponseEntity<Iterable<Question>>(questionService.findAllQuestion(),
                 HttpStatus.OK);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<List<Question>> getTestQuestions(@PathVariable("id") int id) {
+        return new ResponseEntity<List<Question>>(questionService.toTest(id),
+                HttpStatus.OK);
+    }
+
+
 }

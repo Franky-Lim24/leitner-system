@@ -5,7 +5,7 @@ const SignIn = async (user) => {
 	const res = await axiosInstance({
 		method: 'post',
 		url: '/api/login',
-		data: user,
+		data: user, 
 		headers: { 'Content-Type': 'multipart/form-data' },
 	});
 
@@ -25,14 +25,14 @@ const SignUp = async (user) => {
 		method: 'post',
 		url: '/api/user/save',
 		data: user,
-	});
+	}); 
 
 	return res.status === 201;
 };
 
 const LogOut = async () => {
 	await AsyncStorage.removeItem('token');
-};
+}; 
 
 const GetName = async () => {
 	const name = await AsyncStorage.getItem('name');

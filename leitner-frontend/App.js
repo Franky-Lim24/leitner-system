@@ -5,7 +5,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import axios from 'axios';
 import HomeScreen from './src/screens/HomeScreen.js';
-import AnswerScreen from './src/screens/AnswerScreen.js';
 import QuestionScreen from './src/screens/QuestionScreen.js';
 import ScheduleScreen from './src/screens/ScheduleScreen.js';
 import SignInScreen from './src/screens/SignInScreen.js';
@@ -26,7 +25,6 @@ export default function App() {
 				<Stack.Screen name="DetailsScreen" component={DetailsScreen} />
 				<Stack.Screen name="ScheduleScreen" component={ScheduleScreen} />
 				<Stack.Screen name="QuestionScreen" component={QuestionScreen} />
-				<Stack.Screen name="AnswerScreen" component={AnswerScreen} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
