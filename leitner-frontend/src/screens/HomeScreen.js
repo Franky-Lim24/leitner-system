@@ -128,11 +128,11 @@ function HomeScreen({ navigation }) {
 				/>
 			</TouchableOpacity>
 
-			{/* <View style={{backgroundColor: "blue", height: 100, top: 50, flexDirection: "row", alignContent: "center"}}> */}
-				<Text style={[styles.Title, { fontSize: 40, top: 60, textAlign: "center"}]}>
+			<View style={{height: 100, top: 60, width: 320}}>
+				<Text style={[styles.Title, { fontSize: 40, textAlign: "center"}]}>
 					Welcome Back, {name}!
 				</Text>
-			{/* </View> */}
+			</View>
 
 			<View style={styles.BackgroundRectangle}>
 				{/* task bar */}
@@ -292,7 +292,6 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		color: 'white',
 		position: 'relative',
-		top: 95,
 	},
 
 	Subtitle: {
