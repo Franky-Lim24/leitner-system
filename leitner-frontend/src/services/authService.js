@@ -40,4 +40,4 @@ const GetName = async () => {
 	return name.toString();
 };
 
-export { SignIn, SignUp, LogOut, GetName };
+export { SignIn, SignUp, LogOut, GetName,};

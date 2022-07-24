@@ -40,11 +40,11 @@ public class QuestionController {
         return new ResponseEntity<Question>(HttpStatus.OK);
     }
  
-    @GetMapping("/{id}")
-    public ResponseEntity<List<Question>> getQuestionById(@PathVariable("id") int id) {
-        return new ResponseEntity<List<Question>>(questionService.findAllQuestionByBox(id),
-                HttpStatus.OK);
-    }
+    // @GetMapping("/{id}")
+    // public ResponseEntity<List<Question>> getQuestionById(@PathVariable("id") int id) {
+    //     return new ResponseEntity<List<Question>>(questionService.findAllQuestionByBox(id),
+    //             HttpStatus.OK);
+    // }
 
     @GetMapping
     public ResponseEntity<Iterable<Question>> getAllQuestions() {
