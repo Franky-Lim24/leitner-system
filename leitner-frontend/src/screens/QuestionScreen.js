@@ -9,7 +9,7 @@ import {
   Image,
 } from "react-native";
 import FlipCard from "react-native-flip-card-plus";
-import axios from "axios";
+import { GetQuestion, PutQuestion } from "../services/questionService";
 
 //testqns
 const questionsArray = [
@@ -27,25 +27,26 @@ const questionsArray = [
   },
 ];
 
-const baseURL = "https://heap-leitner.uc.r.appspot.com";
-
-const boxId = "123";  //temp
-
 export default class QuestionScreen extends Component {
   constructor(props) {
     super(props);
     this.card = React.createRef();
     this.state = {
-      currentQuestionIndex: 0,
+      currentQuestionIndex: 1324,
       questions: [],
-      boxName: 'Physics',         //???
+      boxName: this.props.route.params.boxName, 
     };
   }
 
   componentDidMount() {
-    axios.get(`${baseURL}/api/question/${boxId}`).then((response) => {
-      this.setState({ questions: response.data });
-    });
+    //console.log(this.props);
+    // axios.get(`${baseURL}/api/question/${boxId}`).then((response) => {
+    //   console.log(response.data);
+    //   this.setState({ questions: response.data });
+    // });
+    const boxId = this.props.route.params.boxId;
+    // this.setState({ questions: GetQuestion(boxId) });
+    this.setState({questions: questionsArray});
   }
 
   handleRight(id, qn, ans, level, date) {
@@ -55,37 +56,39 @@ export default class QuestionScreen extends Component {
       this.setState({ currentQuestionIndex: incrementCurrentQuestionIndex });
     }, 300);
     let newLevel = level + 1;
-
-    axios
-    .put(`${baseURL}/api/question`, {
-      question_id : id,
-      question : qn,
-      answer : ans,
-      level_no : newLevel,
-      test_date : date,
-    })
-    .then((response) => {
-      setPost(response.data);
+    PutQuestion({
+      question_id: id,
+      question: qn,
+      answer: ans,
+      level_no: newLevel,
+      test_date: date,
     });
+    // axios
+    //   .put(`${baseURL}/api/question`, {
+    //     question_id: id,
+    //     question: qn,
+    //     answer: ans,
+    //     level_no: newLevel,
+    //     test_date: date,
+    //   })
+    //   .then((response) => {
+    //     alert(JSON.stringify(response.data));
+    //     setPost(response.data);
+    //   });
   }
 
-  handleWrong(id, qn, ans, level, date) {
+  handleWrong(id, qn, ans, date) {
     this.card.flipHorizontal();
     let incrementCurrentQuestionIndex = this.state.currentQuestionIndex + 1;
     setTimeout(() => {
       this.setState({ currentQuestionIndex: incrementCurrentQuestionIndex });
     }, 300);
-    
-    axios
-    .put(`${baseURL}/api/question`, {
-      question_id : id,
-      question : qn,
-      answer : ans,
-      level_no : 1,
-      test_date : date,
-    })
-    .then((response) => {
-      setPost(response.data);
+    PutQuestion({
+      question_id: id,
+      question: qn,
+      answer: ans,
+      level_no: 1,
+      test_date: date,
     });
   }
 
@@ -95,18 +98,22 @@ export default class QuestionScreen extends Component {
     if (currentQuestionIndex >= questions.length) {
       return (
         <View styles={styles.endPage}>
-          <Text>End of the Quiz!</Text>
-          <Button
-            title="Return to Home"
-            onPress={() => {
-              this.props.navigation.navigate("HomeScreen");
-            }}
-          ></Button>
+          <View styles={styles.textBox}>
+            <Text styles={styles.endPageText}>End of the Quiz!</Text>
+            <Button
+              title="Return to Home"
+              onPress={() => {
+                this.props.navigation.navigate("HomeScreen");
+              }}
+            ></Button>
+          </View>
         </View>
       );
     }
 
-    const { id, question, answer, level, date } = questions[currentQuestionIndex];
+    //const { id, question, answer, level, date } =
+    const { question, answer} =
+      questions[currentQuestionIndex];
     return (
       <View style={styles.container}>
         <TouchableOpacity
@@ -160,7 +167,7 @@ export default class QuestionScreen extends Component {
                   <Button
                     color="red"
                     title="Wrong"
-                    onPress={() => this.handleWrong(id, question, answer, level, date)}
+                    onPress={() => this.handleWrong(id, question, answer, date)}
                   />
                 </View>
                 <View style={{ flex: 0.2 }}></View>
@@ -168,7 +175,9 @@ export default class QuestionScreen extends Component {
                   <Button
                     color="green"
                     title="Right"
-                    onPress={() => this.handleRight(id, question, answer, level, date )}
+                    onPress={() =>
+                      this.handleRight(id, question, answer, level, date)
+                    }
                   />
                 </View>
                 <View style={{ flex: 0.2 }}></View>
@@ -196,12 +205,30 @@ export default class QuestionScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  endPage: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#7988fa",
-  },
+  // endPage: {
+  //   flex: 1,
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   backgroundColor: "blue",
+  // },
+  // textBox: {
+  //   width: "80%",
+  //   height: "90%",
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   alignSelf: "center",
+  //   backgroundColor: "white",
+  //   borderColor: "black",
+  //   borderWidth: 0.5,
+  //   borderRadius: 20,
+  // },
+  // endPageText: {
+  //   textAlign: "center",
+  //   fontSize: 40,
+  //   fontFamily: "System",
+  //   color: "black",
+  //   backgroundColor: "transparent",
+  // },
   container: {
     flex: 1,
     //justifyContent: "center",

@@ -13,25 +13,22 @@ import {
 	FlatList,
 } from 'react-native';
 import { Icon } from '@rneui/themed';
-import { LogOut, GetName } from '../services/authService';
+import { LogOut, GetName, GetBoxes } from '../services/authService.js';
 
 function HomeScreen({ navigation }) {
-	// useEffect(() => {
-	// 	setName(GetName());
-	// }, []);
+
+	const [keyboardStatus, setKeyboardStatus] = useState(undefined);
+	var BoxData = [{BoxID: 1, title: 'Physics', DayCount: 'Day: 3', DueDate: '01-01-2022'}];
+
 	useEffect(() => {
+		//getting the name for the homepage
 		async function getName() {
 			const name = await GetName();
 			setName(name);
 		}
 		getName();
-	}, []);
 
-	//keyboard stuff
-	const [keyboardStatus, setKeyboardStatus] = useState(undefined);
-	const [name, setName] = useState('');
-
-	useEffect(() => {
+		//keyboard stuff
 		const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
 			setKeyboardStatus('Keyboard Shown');
 		});
@@ -39,24 +36,55 @@ function HomeScreen({ navigation }) {
 			setKeyboardStatus('Keyboard Hidden');
 		});
 
+		//getting the box data
+		async function getBoxes() {
+			var res = await GetBoxes();
+			BoxData = res.data;
+			alert(BoxData);
+		}
+		getBoxes();
+		
+		//keyboard stuff
 		return () => {
 			showSubscription.remove();
 			hideSubscription.remove();
 		};
+
+
 	}, []);
 
-	//flatlist stuff for the study boxes
-	const BoxData = [
-		{ id: 1, title: 'Physics', DayCount: 'Day: 3', DueDate: '01-01-2022' },
-		{ id: 2, title: 'Chemistry', DayCount: 'Day: 2', DueDate: '02-02-2022' },
-		{ id: 3, title: 'Biology', DayCount: 'Day: 1', DueDate: '03-02-2022' },
-	];
+	const [name, setName] = useState('');
 
-	const Box = ({ title, DayCount, DueDate }) => (
+
+	//keyboard stuff
+
+
+	//stuff for the study boxes
+
+
+	// useEffect(() => {
+	// 	// async function getBoxes() {
+	// 	// 	var res = await GetBoxes();
+	// 	// 	BoxData = res.data;
+	// 	// 	alert(BoxData);
+	// 	// }
+	// 	// getBoxes();
+	// }, []);
+
+	// const BoxData = [
+	// 	{ id: 1, title: 'Physics', DayCount: 'Day: 3', DueDate: '01-01-2022' },
+	// 	{ id: 2, title: 'Chemistry', DayCount: 'Day: 2', DueDate: '02-02-2022' },
+	// 	{ id: 3, title: 'Biology', DayCount: 'Day: 1', DueDate: '03-02-2022' },
+	// ];
+
+	const Box = ({ id, title, DayCount, DueDate }) => (
 		<TouchableOpacity
 			style={styles.BoxItem}
-			onPress={() => navigation.navigate('QuestionScreen')}
-		>
+			onPress={() => navigation.navigate("QuestionScreen", {
+	  		boxId: id,
+	  		boxName: title,
+	 	})}>
+		
 			<Text
 				style={[
 					styles.Subtitle,
@@ -77,7 +105,7 @@ function HomeScreen({ navigation }) {
 	);
 
 	const renderBox = ({ item }) => (
-		<Box title={item.title} DayCount={item.DayCount} DueDate={item.DueDate} />
+		<Box id={item.id} title={item.title} DayCount={item.DayCount} DueDate={item.DueDate} />
 	);
 
 	const logout = async () => {
@@ -100,9 +128,11 @@ function HomeScreen({ navigation }) {
 				/>
 			</TouchableOpacity>
 
-			<Text style={[styles.Title, { fontSize: 40, top: 80 }]}>
-				Welcome Back, {name}!
-			</Text>
+			<View style={{height: 100, top: 60, width: 320}}>
+				<Text style={[styles.Title, { fontSize: 40, textAlign: "center"}]}>
+					Welcome Back, {name}!
+				</Text>
+			</View>
 
 			<View style={styles.BackgroundRectangle}>
 				{/* task bar */}
@@ -209,7 +239,7 @@ function HomeScreen({ navigation }) {
 						<FlatList
 							data={BoxData}
 							renderItem={renderBox}
-							keyExtractor={(item) => item.id}
+							keyExtractor={(item) => item.BoxID}
 							horizontal={true}
 						/>
 					)}
@@ -262,7 +292,6 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		color: 'white',
 		position: 'relative',
-		top: 95,
 	},
 
 	Subtitle: {
