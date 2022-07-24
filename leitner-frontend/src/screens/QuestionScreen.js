@@ -12,20 +12,20 @@ import FlipCard from "react-native-flip-card-plus";
 import { GetQuestion, PutQuestion } from "../services/questionService";
 
 //testqns
-// const questionsArray = [
-//   {
-//     question: "What is the Capital of Bulgaria?",
-//     answer: "Sofia",
-//   },
-//   {
-//     question: "What is the Capital of Singapore?",
-//     answer: "Singapore",
-//   },
-//   {
-//     question: "What is the Capital of China?",
-//     answer: "Beijing",
-//   },
-// ];
+const questionsArray = [
+  {
+    question: "What is the Capital of Bulgaria?",
+    answer: "Sofia",
+  },
+  {
+    question: "What is the Capital of Singapore?",
+    answer: "Singapore",
+  },
+  {
+    question: "What is the Capital of China?",
+    answer: "Beijing",
+  },
+];
 
 export default class QuestionScreen extends Component {
   constructor(props) {
@@ -45,7 +45,8 @@ export default class QuestionScreen extends Component {
     //   this.setState({ questions: response.data });
     // });
     const boxId = this.props.route.params.boxId;
-    this.setState({ questions: GetQuestion(boxId) });
+    // this.setState({ questions: GetQuestion(boxId) });
+    this.setState({questions: questionsArray});
   }
 
   handleRight(id, qn, ans, level, date) {
@@ -110,7 +111,8 @@ export default class QuestionScreen extends Component {
       );
     }
 
-    const { id, question, answer, level, date } =
+    //const { id, question, answer, level, date } =
+    const { question, answer} =
       questions[currentQuestionIndex];
     return (
       <View style={styles.container}>
