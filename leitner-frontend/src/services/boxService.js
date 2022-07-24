@@ -13,7 +13,7 @@ const PutBox = async(box) => {
 		method: 'put',
 		url: 'api/box',
 		data: box,
-		headers: { 'Content-Type': 'multipart/form-data' },  //idk if this is correct
+		//headers: { 'Content-Type': 'multipart/form-data' },  //idk if this is correct
 		})
 }
 
@@ -22,7 +22,6 @@ const PostBox = async(box) => {
 		method: 'post',
 		url: 'api/box',
 		data: box,
-		headers: { 'Content-Type': 'multipart/form-data' },  
 		})
 }
 

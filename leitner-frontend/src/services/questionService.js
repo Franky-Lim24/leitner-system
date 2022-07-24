@@ -13,8 +13,7 @@ const PutQuestion = async(question) => {
 		method: 'put',
 		url: 'api/question',
 		data: question,
-		headers: { 'Content-Type': 'multipart/form-data' },  //idk if this is correct
-		})
+    })
 }
 
 export {GetQuestion, PutQuestion};
