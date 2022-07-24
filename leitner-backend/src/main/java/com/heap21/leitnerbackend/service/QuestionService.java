@@ -1,9 +1,11 @@
 package com.heap21.leitnerbackend.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import com.heap21.leitnerbackend.dto.QuestionsDTO;
 import com.heap21.leitnerbackend.model.Box;
 import com.heap21.leitnerbackend.model.Question;
 import com.heap21.leitnerbackend.repo.QuestionRepository;
@@ -45,14 +47,21 @@ public class QuestionService {
         return questionRepository.findAll();
     }
 
-    public List<Question> findAllQuestionByBox(int box_id) {
+    public List<QuestionsDTO> findAllQuestionByBox(int box_id) {
         List<Question> questions = questionRepository.findAll();
+        List<QuestionsDTO> returnQuestions = new ArrayList<>();
         for (Question q : questions) {
-            if (q.getBox().getBox_id() != box_id) {
-                questions.remove(q);
+            if (q.getBox().getBox_id() == box_id) {
+                QuestionsDTO question = new QuestionsDTO();
+                question.setQuestion_id(q.getQuestion_id());
+                question.setQuestion(q.getQuestion());
+                question.setAnswer(q.getAnswer());
+                question.setLevel_no(q.getLevel_no());
+                question.setTest_date(q.getTest_date());
+                returnQuestions.add(question);
             }
         }
-        return questions;
+        return returnQuestions;
     }
 
     // public void correct(Question question) {

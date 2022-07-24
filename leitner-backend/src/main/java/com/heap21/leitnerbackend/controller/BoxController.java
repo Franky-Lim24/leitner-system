@@ -41,10 +41,10 @@ public class BoxController {
     public ResponseEntity<Box> getBoxById(@PathVariable("id") int id) {
         return new ResponseEntity<Box>(boxService.getBox(id), HttpStatus.OK);
     }
- 
+
     @GetMapping
-    public ResponseEntity<Iterable<Box>> getAllBoxes() {
-        return new ResponseEntity<Iterable<Box>>(boxService.findAllBox(), HttpStatus.OK);
+    public ResponseEntity<List<Box>> getAllBoxes() {
+        return new ResponseEntity<List<Box>>(boxService.findAllBox(), HttpStatus.OK);
     }
 
     @GetMapping("/tasks")

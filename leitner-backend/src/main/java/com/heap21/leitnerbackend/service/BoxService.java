@@ -21,9 +21,14 @@ public class BoxService {
     private final BoxRepository boxRepo;
 
     public String getUsername() {
-        UserDetails user =
-                (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return user.getUsername();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = null;
+        if (principal instanceof UserDetails) {
+            username = ((UserDetails) principal).getUsername();
+        } else {
+            username = principal.toString();
+        }
+        return username;
     }
 
     public Box saveBox(Box box) {
@@ -46,12 +51,15 @@ public class BoxService {
 
     public List<Box> findAllBox() {
         List<Box> boxes = boxRepo.findAll();
+        String username = getUsername();
+        log.info(username);
+        List<Box> returnBoxes = new ArrayList<Box>();
         for (Box b : boxes) {
-            if (!b.getUsername().equals(getUsername())) {
-                boxes.remove(b);
+            if (b.getUsername().equals(username)) {
+                returnBoxes.add(b);
             }
         }
-        return boxes;
+        return returnBoxes;
     }
 
     public Box getBox(int box_id) {
