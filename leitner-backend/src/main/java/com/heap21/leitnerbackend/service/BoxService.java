@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import com.heap21.leitnerbackend.dto.BoxDTO;
 import com.heap21.leitnerbackend.model.Box;
 import com.heap21.leitnerbackend.model.Question;
 import com.heap21.leitnerbackend.repo.BoxRepository;
@@ -49,14 +50,18 @@ public class BoxService {
         boxRepo.deleteById(id);
     }
 
-    public List<Box> findAllBox() {
+    public List<BoxDTO> findAllBox() {
         List<Box> boxes = boxRepo.findAll();
         String username = getUsername();
         log.info(username);
-        List<Box> returnBoxes = new ArrayList<Box>();
+        List<BoxDTO> returnBoxes = new ArrayList<BoxDTO>();
         for (Box b : boxes) {
             if (b.getUsername().equals(username)) {
-                returnBoxes.add(b);
+                BoxDTO box = new BoxDTO();
+                box.setBox_id(b.getBox_id());
+                box.setBox_name(b.getBox_name());
+                box.setColour(b.getColour());
+                returnBoxes.add(box);
             }
         }
         return returnBoxes;

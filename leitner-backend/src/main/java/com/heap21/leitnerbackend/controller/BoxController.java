@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.heap21.leitnerbackend.dto.BoxDTO;
 import com.heap21.leitnerbackend.model.Box;
 import com.heap21.leitnerbackend.service.BoxService;
 import lombok.RequiredArgsConstructor;
@@ -43,8 +44,8 @@ public class BoxController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Box>> getAllBoxes() {
-        return new ResponseEntity<List<Box>>(boxService.findAllBox(), HttpStatus.OK);
+    public ResponseEntity<List<BoxDTO>> getAllBoxes() {
+        return new ResponseEntity<List<BoxDTO>>(boxService.findAllBox(), HttpStatus.OK);
     }
 
     @GetMapping("/tasks")

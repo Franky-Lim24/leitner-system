@@ -16,51 +16,27 @@ import { Icon } from '@rneui/themed';
 import { LogOut, GetName, GetBoxes } from '../services/authService.js';
 
 function HomeScreen({ navigation }) {
-
-	const [keyboardStatus, setKeyboardStatus] = useState(undefined);
-	var BoxData = [{BoxID: 1, title: 'Physics', DayCount: 'Day: 3', DueDate: '01-01-2022'}];
-
+	// const [keyboardStatus, setKeyboardStatus] = useState(undefined);
+	const [boxData, setBoxData] = useState([{}]);
 	useEffect(() => {
 		//getting the name for the homepage
 		async function getName() {
 			const name = await GetName();
 			setName(name);
+
+			console.log('calling getBoxes');
+			var res = await GetBoxes();
+			setBoxData(res.data);
+			console.log(res.data);
 		}
 		getName();
-
-		//keyboard stuff
-		const showSubscription = Keyboard.addListener('keyboardDidShow', () => {
-			setKeyboardStatus('Keyboard Shown');
-		});
-		const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
-			setKeyboardStatus('Keyboard Hidden');
-		});
-
-		//getting the box data
-		async function getBoxes() {
-			var res = await GetBoxes();
-			BoxData = res.data;
-			alert(BoxData);
-		}
-		getBoxes();
-		
-		//keyboard stuff
-		return () => {
-			showSubscription.remove();
-			hideSubscription.remove();
-		};
-
-
 	}, []);
 
 	const [name, setName] = useState('');
 
-
 	//keyboard stuff
 
-
 	//stuff for the study boxes
-
 
 	// useEffect(() => {
 	// 	// async function getBoxes() {
@@ -80,11 +56,13 @@ function HomeScreen({ navigation }) {
 	const Box = ({ id, title, DayCount, DueDate }) => (
 		<TouchableOpacity
 			style={styles.BoxItem}
-			onPress={() => navigation.navigate("QuestionScreen", {
-	  		boxId: id,
-	  		boxName: title,
-	 	})}>
-		
+			onPress={() =>
+				navigation.navigate('QuestionScreen', {
+					boxId: id,
+					boxName: title,
+				})
+			}
+		>
 			<Text
 				style={[
 					styles.Subtitle,
@@ -105,7 +83,12 @@ function HomeScreen({ navigation }) {
 	);
 
 	const renderBox = ({ item }) => (
-		<Box id={item.id} title={item.title} DayCount={item.DayCount} DueDate={item.DueDate} />
+		<Box
+			id={item.box_id}
+			title={item.box_name}
+			DayCount={item.DayCount}
+			DueDate={item.DueDate}
+		/>
 	);
 
 	const logout = async () => {
@@ -128,8 +111,8 @@ function HomeScreen({ navigation }) {
 				/>
 			</TouchableOpacity>
 
-			<View style={{height: 100, top: 60, width: 320}}>
-				<Text style={[styles.Title, { fontSize: 40, textAlign: "center"}]}>
+			<View style={{ height: 100, top: 60, width: 320 }}>
+				<Text style={[styles.Title, { fontSize: 40, textAlign: 'center' }]}>
 					Welcome Back, {name}!
 				</Text>
 			</View>
@@ -235,11 +218,13 @@ function HomeScreen({ navigation }) {
 
 				{/* study boxes */}
 				<View style={styles.BoxWindow}>
-					{BoxData && (
+					{boxData && (
 						<FlatList
-							data={BoxData}
+							data={boxData}
 							renderItem={renderBox}
-							keyExtractor={(item) => item.BoxID}
+							keyExtractor={(item, index) => {
+								return index;
+							}}
 							horizontal={true}
 						/>
 					)}
