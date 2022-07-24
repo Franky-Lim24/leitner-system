@@ -27,7 +27,7 @@ function HomeScreen({ navigation }) {
 			console.log('calling getBoxes');
 			var res = await GetBoxes();
 			setBoxData(res.data);
-			console.log(res.data);
+			// console.log(res.data);
 		}
 		getName();
 	}, []);
@@ -53,43 +53,48 @@ function HomeScreen({ navigation }) {
 	// 	{ id: 3, title: 'Biology', DayCount: 'Day: 1', DueDate: '03-02-2022' },
 	// ];
 
-	const Box = ({ id, title, DayCount, DueDate }) => (
-		<TouchableOpacity
-			style={styles.BoxItem}
-			onPress={() =>
-				navigation.navigate('QuestionScreen', {
-					boxId: id,
-					boxName: title,
-				})
-			}
-		>
-			<Text
-				style={[
-					styles.Subtitle,
-					{ alignSelf: 'center', top: 35, fontSize: 17 },
-				]}
+	const Box = ({ id, title, DayCount, DueDate }) => {
+		console.log(title);
+		return (
+			<TouchableOpacity
+				style={styles.BoxItem}
+				onPress={() =>
+					navigation.navigate('QuestionScreen', {
+						boxId: id,
+						boxName: title,
+					})
+				}
 			>
-				{title}{' '}
-			</Text>
-			<Text style={[styles.Body, { alignSelf: 'center', top: 45 }]}>
-				{DayCount}{' '}
-			</Text>
-			<Text
-				style={[styles.Body, { alignSelf: 'center', top: 50, fontSize: 13 }]}
-			>
-				{DueDate}
-			</Text>
-		</TouchableOpacity>
-	);
+				<Text
+					style={[
+						styles.Subtitle,
+						{ alignSelf: 'center', top: 35, fontSize: 17 },
+					]}
+				>
+					{title ? title : 'No Name'}
+				</Text>
+				<Text style={[styles.Body, { alignSelf: 'center', top: 45 }]}>
+					{DayCount}{' '}
+				</Text>
+				<Text
+					style={[styles.Body, { alignSelf: 'center', top: 50, fontSize: 13 }]}
+				>
+					{DueDate}
+				</Text>
+			</TouchableOpacity>
+		);
+	};
 
-	const renderBox = ({ item }) => (
-		<Box
-			id={item.box_id}
-			title={item.box_name}
-			DayCount={item.DayCount}
-			DueDate={item.DueDate}
-		/>
-	);
+	const renderBox = ({ item }) => {
+		return (
+			<Box
+				id={item.box_id}
+				title={item.box_name}
+				DayCount="0"
+				DueDate="01-01-2022"
+			/>
+		);
+	};
 
 	const logout = async () => {
 		LogOut();
@@ -223,7 +228,7 @@ function HomeScreen({ navigation }) {
 							data={boxData}
 							renderItem={renderBox}
 							keyExtractor={(item, index) => {
-								return index;
+								return item.box_id;
 							}}
 							horizontal={true}
 						/>
