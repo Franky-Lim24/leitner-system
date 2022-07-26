@@ -29,7 +29,7 @@ To run locally, ensure application.properties file in resources folder are fille
 cd leitner-backend
 mvn spring-boot:run
 ```
-Or test the application using in Postman by accessing `https://heap-leitner.uc.r.appspot.com/`
+Or test the application using Postman by accessing `https://heap-leitner.uc.r.appspot.com/`
 
 ### React Native Application
 Ensure node version 16 is installed in your workstation and Expo Go in your phone before proceeding with the installation commands
