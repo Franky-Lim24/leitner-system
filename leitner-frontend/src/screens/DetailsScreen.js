@@ -14,11 +14,10 @@ import {
 } from "react-native";
 import { Icon } from "@rneui/themed";
 import { NavigationContainer } from "@react-navigation/native";
-import { format } from "react-string-format"; //npm install
+import { format } from "react-string-format";
 import axios from "axios";
-import {CreateBox, CreateQuestions} from "../services/authService.js";
-
-const baseURL = "https://heap-leitner.uc.r.appspot.com";
+import {CreateBox} from "../services/boxService.js";
+import {CreateQuestions} from "../services/questionService.js";
 
 function DetailsScreen({ route, navigation }) {
 

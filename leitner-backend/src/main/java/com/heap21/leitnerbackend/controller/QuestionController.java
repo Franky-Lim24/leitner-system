@@ -41,9 +41,15 @@ public class QuestionController {
         return new ResponseEntity<Question>(HttpStatus.OK);
     }
 
+    // @GetMapping("/{id}")
+    // public ResponseEntity<List<QuestionsDTO>> getQuestionById(@PathVariable("id") int id) {
+    //     return new ResponseEntity<List<QuestionsDTO>>(questionService.findAllQuestionByBox(id),
+    //             HttpStatus.OK);
+    // }
+
     @GetMapping("/{id}")
-    public ResponseEntity<List<QuestionsDTO>> getQuestionById(@PathVariable("id") int id) {
-        return new ResponseEntity<List<QuestionsDTO>>(questionService.findAllQuestionByBox(id),
+    public ResponseEntity<List<QuestionsDTO>> getTestQuestions(@PathVariable("id") int id) {
+        return new ResponseEntity<List<QuestionsDTO>>(questionService.toTest(id),
                 HttpStatus.OK);
     }
 

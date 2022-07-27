@@ -3,9 +3,9 @@ import axiosInstance from '../utils/AxiosInstance';
 const GetQuestion = async(boxId) => {
 	const res = await axiosInstance({
 		method: 'get',
-		url: `api/box/${boxId}`,
+		url: `api/question/${boxId}`,
 	})
-	return res.data; //or res?? idk
+	return res; 
 }
 
 const PutQuestion = async(question) => {
@@ -16,4 +16,16 @@ const PutQuestion = async(question) => {
     })
 }
 
-export {GetQuestion, PutQuestion};
+const CreateQuestions = async (questionsData) => {
+	const res = await axiosInstance({
+	  method: 'post',
+	  url: '/api/question/{boxID}',
+	  data: questionsData
+	})
+  }
+
+export {
+	GetQuestion, 
+	PutQuestion, 
+	CreateQuestions
+};

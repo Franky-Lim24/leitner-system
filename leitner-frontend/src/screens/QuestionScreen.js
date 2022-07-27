@@ -7,50 +7,35 @@ import {
   TouchableOpacity,
   Pressable,
   Image,
-  SafeAreaView
+  SafeAreaView,
 } from "react-native";
+import { Icon } from "@rneui/themed";
 import FlipCard from "react-native-flip-card-plus";
 import { GetQuestion, PutQuestion } from "../services/questionService";
-
-//testqns
-const questionsArray = [
-  {
-    question: "What is the Capital of Bulgaria?",
-    answer: "Sofia",
-  },
-  {
-    question: "What is the Capital of Singapore?",
-    answer: "Singapore",
-  },
-  {
-    question: "What is the Capital of China?",
-    answer: "Beijing",
-  },
-];
 
 export default class QuestionScreen extends Component {
   constructor(props) {
     super(props);
     this.card = React.createRef();
     this.state = {
-      currentQuestionIndex: 1324,
+      currentQuestionIndex: 0,
       questions: [],
       boxName: this.props.route.params.boxName, 
     };
   }
 
   componentDidMount() {
-    //console.log(this.props);
-    // axios.get(`${baseURL}/api/question/${boxId}`).then((response) => {
-    //   console.log(response.data);
-    //   this.setState({ questions: response.data });
-    // });
     const boxId = this.props.route.params.boxId;
-    // this.setState({ questions: GetQuestion(boxId) });
-    this.setState({questions: questionsArray});
+    console.log(boxId);
+    const getQuestion = async (boxId) => {
+			console.log('calling getquestion');
+			var res = await GetQuestion(boxId);
+      this.setState({questions: res.data});
+		}
+    getQuestion(boxId);
   }
 
-  handleRight(id, qn, ans, level, date) {
+  handleRight(id, qn, ans, level) {
     this.card.flipHorizontal();
     let incrementCurrentQuestionIndex = this.state.currentQuestionIndex + 1;
     setTimeout(() => {
@@ -61,36 +46,25 @@ export default class QuestionScreen extends Component {
       question_id: id,
       question: qn,
       answer: ans,
-      level_no: newLevel,
-      test_date: date,
+      level_no: newLevel
     });
-    // axios
-    //   .put(`${baseURL}/api/question`, {
-    //     question_id: id,
-    //     question: qn,
-    //     answer: ans,
-    //     level_no: newLevel,
-    //     test_date: date,
-    //   })
-    //   .then((response) => {
-    //     alert(JSON.stringify(response.data));
-    //     setPost(response.data);
-    //   });
   }
 
-  handleWrong(id, qn, ans, date) {
+  handleWrong(id, qn, ans) {
     this.card.flipHorizontal();
     let incrementCurrentQuestionIndex = this.state.currentQuestionIndex + 1;
     setTimeout(() => {
       this.setState({ currentQuestionIndex: incrementCurrentQuestionIndex });
     }, 300);
-    PutQuestion({
-      question_id: id,
-      question: qn,
-      answer: ans,
-      level_no: 1,
-      test_date: date,
-    });
+    async function putQuestion(id, qn, ans) {
+      await PutQuestion({
+        question_id: id,
+        question: qn,
+        answer: ans,
+        level_no: 1,
+      });
+    }
+    putQuestion(id, qn, ans);
   }
 
   render() {
@@ -104,7 +78,7 @@ export default class QuestionScreen extends Component {
             <Button
               title="Return to Home"
               onPress={() => {
-                this.props.navigation.navigate("HomeScreen");
+                this.props.navigation.navigate('HomeScreen');
               }}
             ></Button>
           </View>
@@ -112,9 +86,8 @@ export default class QuestionScreen extends Component {
       );
     }
 
-    //const { id, question, answer, level, date } =
-    const { question, answer} =
-      questions[currentQuestionIndex];
+    const { answer, level, question, id, date } 
+    = questions[currentQuestionIndex];
     return (
       <View style={styles.container}>
         <TouchableOpacity
@@ -123,20 +96,18 @@ export default class QuestionScreen extends Component {
             this.props.navigation.navigate("HomeScreen");
           }}
         >
-          <Image source={require("../images/home.png")} />
+          <Icon
+            name="home"
+            type="simple-line-icon"
+            color="#FFFFFF"
+            size={30}
+          />
         </TouchableOpacity>
         <View style={styles.header}></View>
         <View style={styles.header}>
           <Text style={styles.headerText}>{boxName}</Text>
         </View>
         <View style={styles.question}>
-          <TouchableOpacity
-            onPress={() => {
-              alert("Go to Previous Question?");
-            }}
-          >
-            <Image source={require("../images/21256.png")} />
-          </TouchableOpacity>
           <Text style={styles.questionText}>Question</Text>
           <Text style={styles.questionText}> {currentQuestionIndex + 1}</Text>
           <Text style={styles.questionText}>/</Text>
@@ -168,7 +139,7 @@ export default class QuestionScreen extends Component {
                   <Button
                     color="red"
                     title="Wrong"
-                    onPress={() => this.handleWrong(id, question, answer, date)}
+                    onPress={() => this.handleWrong(id, question, answer)}
                   />
                 </View>
                 <View style={{ flex: 0.2 }}></View>
@@ -177,7 +148,7 @@ export default class QuestionScreen extends Component {
                     color="green"
                     title="Right"
                     onPress={() =>
-                      this.handleRight(id, question, answer, level, date)
+                      this.handleRight(id, question, answer, level)
                     }
                   />
                 </View>
@@ -206,30 +177,29 @@ export default class QuestionScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  // endPage: {
-  //   flex: 1,
-  //   justifyContent: "center",
-  //   alignItems: "center",
-  //   backgroundColor: "blue",
-  // },
-  // textBox: {
-  //   width: "80%",
-  //   height: "90%",
-  //   justifyContent: "center",
-  //   alignItems: "center",
-  //   alignSelf: "center",
-  //   backgroundColor: "white",
-  //   borderColor: "black",
-  //   borderWidth: 0.5,
-  //   borderRadius: 20,
-  // },
-  // endPageText: {
-  //   textAlign: "center",
-  //   fontSize: 40,
-  //   fontFamily: "System",
-  //   color: "black",
-  //   backgroundColor: "transparent",
-  // },
+  endPage: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "blue",
+  },
+  textBox: {
+    width: "80%",
+    height: "90%",
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    backgroundColor: "white",
+    borderColor: "black",
+    borderWidth: 0.5,
+    borderRadius: 20,
+  },
+  endPageText: {
+    textAlign: "center",
+    fontSize: 40,
+    fontFamily: "System",
+    color: "black",
+    backgroundColor: "transparent",
+  },
   container: {
     flex: 1,
     //justifyContent: "center",

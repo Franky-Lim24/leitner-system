@@ -1,11 +1,20 @@
 import axiosInstance from "../utils/AxiosInstance";
 
-const GetBox = async () => {
+const GetBoxes = async () => {
 	const res = await axiosInstance({
 		method: 'get',
 		url: '/api/box',
 	});
-	return res.data; //or res?? idk
+
+	return res;
+};
+
+const CreateBox = async (box) => {
+	const res = await axiosInstance({
+		method: 'post',
+		url: '/api/box',
+		data: { box_name: box, colour: 'green' },
+	});
 };
 
 const PutBox = async (box) => {
@@ -13,7 +22,6 @@ const PutBox = async (box) => {
 		method: 'put',
 		url: '/api/box',
 		data: box,
-		//headers: { 'Content-Type': 'multipart/form-data' },  //idk if this is correct
 	});
 };
 
@@ -33,4 +41,10 @@ const GetTask = async () => {
 	return res.data;
 };
 
-export { GetBox, PutBox, PostBox, GetTask };
+export { 
+	GetBoxes, 
+	CreateBox, 
+	PutBox, 
+	PostBox, 
+	GetTask 
+};

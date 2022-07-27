@@ -40,37 +40,10 @@ const GetName = async () => {
 	return name.toString();
 };
 
-const GetBoxes = async () => {
-	const res = await axiosInstance({
-		method: 'get',
-		url: '/api/box',
-	});
-
-	return res;
-};
-
-const CreateBox = async (box) => {
-	const res = await axiosInstance({
-		method: 'post',
-		url: '/api/box',
-		data: { box_name: box, colour: 'green' },
-	});
-};
-
-const CreateQuestions = async (questionsData) => {
-  const res = await axiosInstance({
-    method: 'post',
-    url: '/api/question/{boxID}',
-    data: questionsData
-  })
-}
 
 export {
 	SignIn,
 	SignUp,
 	LogOut,
 	GetName,
-	GetBoxes,
-	CreateBox,
-	CreateQuestions,
 };
