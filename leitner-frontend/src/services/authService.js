@@ -57,11 +57,11 @@ const CreateBox = async (box) => {
   }); 
 };
 
-const CreateQuestions = async (questions) => {
+const CreateQuestions = async (questionsData) => {
   const res = await axiosInstance({
     method: 'post',
     url: '/api/question/{boxID}',
-    data: questions
+    data: questionsData
   })
 }
 
