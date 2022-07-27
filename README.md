@@ -87,16 +87,25 @@ npm start
 ```
 
 A QR code will be displayed in the terminal, please scan the QR code using Expo Go app for Android or Camera for IOS
-
-## Application Guide
-
-- Sign In or Register an account  
-[<img src="https://raw.githubusercontent.com/franky-lim24/leitner-system/main/images/Sign%20In.jpg"/>](https://raw.githubusercontent.com/franky-lim24/leitner-system/main/images/Sign%20In.jpg)
+  
+## Application Guide  
+  
+- Sign In or Register an account   
+  
+[<img src="https://raw.githubusercontent.com/franky-lim24/leitner-system/main/images/Sign%20In.jpg" height="200px"/>](https://raw.githubusercontent.com/franky-lim24/leitner-system/main/images/Sign%20In.jpg)  
+  
 - Explore the Homepage  
-[<img src="https://raw.githubusercontent.com/franky-lim24/leitner-system/main/images/Homepage.jpg"/>](https://raw.githubusercontent.com/franky-lim24/leitner-system/main/images/Homepage.jpg)
+  
+[<img src="https://raw.githubusercontent.com/franky-lim24/leitner-system/main/images/Homepage.jpg" height="180px"/>](https://raw.githubusercontent.com/franky-lim24/leitner-system/main/images/Homepage.jpg)  
+  
 - Create a new Box and Questions  
-[<img src="https://raw.githubusercontent.com/franky-lim24/leitner-system/main/images/Create%20Box%20and%20Qns.jpg"/>](https://raw.githubusercontent.com/franky-lim24/leitner-system/main/images/Create%20Box%20and%20Qns.jpg)
+  
+[<img src="https://raw.githubusercontent.com/franky-lim24/leitner-system/main/images/Create%20Box%20and%20Qns.jpg" height="150px"/>](https://raw.githubusercontent.com/franky-lim24/leitner-system/main/images/Create%20Box%20and%20Qns.jpg)  
+  
 - View your schedule  
-[<img src="https://raw.githubusercontent.com/franky-lim24/leitner-system/main/images/Schedule.jpg"/>](https://raw.githubusercontent.com/franky-lim24/leitner-system/main/images/Schedule.jpg)
+  
+[<img src="https://raw.githubusercontent.com/franky-lim24/leitner-system/main/images/Schedule.jpg" height="100px"/>](https://raw.githubusercontent.com/franky-lim24/leitner-system/main/images/Schedule.jpg)  
+  
 - Practice your flashcards  
-[<img src="https://raw.githubusercontent.com/franky-lim24/leitner-system/main/images/Questions.jpg"/>](https://raw.githubusercontent.com/franky-lim24/leitner-system/main/images/Questions.jpg)
+  
+[<img src="https://raw.githubusercontent.com/franky-lim24/leitner-system/main/images/Questions.jpg" height="220px"/>](https://raw.githubusercontent.com/franky-lim24/leitner-system/main/images/Questions.jpg)
