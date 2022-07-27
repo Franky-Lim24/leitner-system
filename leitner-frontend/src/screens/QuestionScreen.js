@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Pressable,
   Image,
+  SafeAreaView
 } from "react-native";
 import FlipCard from "react-native-flip-card-plus";
 import { GetQuestion, PutQuestion } from "../services/questionService";
@@ -97,7 +98,7 @@ export default class QuestionScreen extends Component {
 
     if (currentQuestionIndex >= questions.length) {
       return (
-        <View styles={styles.endPage}>
+        <SafeAreaView styles={styles.endPage}>
           <View styles={styles.textBox}>
             <Text styles={styles.endPageText}>End of the Quiz!</Text>
             <Button
@@ -107,7 +108,7 @@ export default class QuestionScreen extends Component {
               }}
             ></Button>
           </View>
-        </View>
+        </SafeAreaView>
       );
     }
 

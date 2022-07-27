@@ -58,7 +58,7 @@ const SignInScreen = ({ navigation }) => {
 				password: data.password,
 			});
 			if (isLoggedIn) {
-				navigation.navigate('HomeScreen');
+				navigation.push('HomeScreen');
 			} else {
 				alert('Invalid username or password');
 			}
