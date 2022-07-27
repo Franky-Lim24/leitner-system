@@ -23,15 +23,15 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @PostMapping("/{boxId}")
-    public ResponseEntity<List<Question>> createQuestion(@RequestBody List<Question> question,
+    public ResponseEntity<List<QuestionsDTO>> createQuestion(@RequestBody List<Question> question,
             @PathVariable("boxId") int boxId) {
-        return new ResponseEntity<List<Question>>(questionService.saveQuestion(question, boxId),
+        return new ResponseEntity<List<QuestionsDTO>>(questionService.saveQuestion(question, boxId),
                 HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Question> updateQuestion(@RequestBody Question question) {
-        return new ResponseEntity<Question>(questionService.updateQuestion(question),
+    public ResponseEntity<QuestionsDTO> updateQuestion(@RequestBody Question question) {
+        return new ResponseEntity<QuestionsDTO>(questionService.updateQuestion(question),
                 HttpStatus.OK);
     }
 
@@ -48,8 +48,8 @@ public class QuestionController {
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<Question>> getAllQuestions() {
-        return new ResponseEntity<Iterable<Question>>(questionService.findAllQuestion(),
+    public ResponseEntity<List<QuestionsDTO>> getAllQuestions() {
+        return new ResponseEntity<List<QuestionsDTO>>(questionService.findAllQuestion(),
                 HttpStatus.OK);
     }
 }

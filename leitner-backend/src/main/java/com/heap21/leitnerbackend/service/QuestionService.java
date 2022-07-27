@@ -20,21 +20,45 @@ public class QuestionService {
     private final QuestionRepository questionRepository;
     private final BoxService boxService;
 
-    public List<Question> saveQuestion(List<Question> questions, int box_id) {
+    public List<QuestionsDTO> saveQuestion(List<Question> questions, int box_id) {
         log.info("Saving new question to the database");
         Box box = boxService.getBox(box_id);
-        for (Question question : questions)
+        List<QuestionsDTO> questionsDTO = new ArrayList<>();
+
+        for (Question question : questions) {
             question.setBox(box);
-        return questionRepository.saveAll(questions);
+            QuestionsDTO questionsDTO1 = new QuestionsDTO();
+            questionsDTO1.setQuestion(question.getQuestion());
+            questionsDTO1.setAnswer(question.getAnswer());
+            questionsDTO1.setLevel_no(question.getLevel_no());
+            questionsDTO1.setQuestion_id(question.getQuestion_id());
+            questionsDTO1.setTest_date(question.getTest_date());
+            questionsDTO.add(questionsDTO1);
+        }
+        questionRepository.saveAll(questions);
+        return questionsDTO;
     }
 
-    public Question updateQuestion(Question question) {
-        Question questionToUpdate = questionRepository.findById(question.getQuestion_id()).get();
-        questionToUpdate.setQuestion(question.getQuestion());
-        questionToUpdate.setAnswer(question.getAnswer());
-        questionToUpdate.setLevel_no(question.getLevel_no());
-        questionToUpdate.setTest_date(question.getTest_date());
-        return questionRepository.save(questionToUpdate);
+    public QuestionsDTO updateQuestion(Question question) {
+        try {
+            Question questionToUpdate =
+                    questionRepository.findById(question.getQuestion_id()).get();
+            questionToUpdate.setQuestion(question.getQuestion());
+            questionToUpdate.setAnswer(question.getAnswer());
+            questionToUpdate.setLevel_no(question.getLevel_no());
+            questionToUpdate.setTest_date(question.getTest_date());
+            questionRepository.save(questionToUpdate);
+
+            QuestionsDTO questionsDTO = new QuestionsDTO();
+            questionsDTO.setQuestion(question.getQuestion());
+            questionsDTO.setAnswer(question.getAnswer());
+            questionsDTO.setLevel_no(question.getLevel_no());
+            questionsDTO.setQuestion_id(question.getQuestion_id());
+            questionsDTO.setTest_date(question.getTest_date());
+            return questionsDTO;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     public void deleteQuestionById(int question_id) {
@@ -43,8 +67,21 @@ public class QuestionService {
         }
     }
 
-    public List<Question> findAllQuestion() {
-        return questionRepository.findAll();
+    public List<QuestionsDTO> findAllQuestion() {
+        List<Question> qns = questionRepository.findAll();
+        List<QuestionsDTO> questionsDTOList = new ArrayList<>();
+
+        for (Question question : qns) {
+            QuestionsDTO questionsDTO = new QuestionsDTO();
+            questionsDTO.setQuestion(question.getQuestion());
+            questionsDTO.setAnswer(question.getAnswer());
+            questionsDTO.setLevel_no(question.getLevel_no());
+            questionsDTO.setQuestion_id(question.getQuestion_id());
+            questionsDTO.setTest_date(question.getTest_date());
+            questionsDTOList.add(questionsDTO);
+        }
+
+        return questionsDTOList;
     }
 
     public List<QuestionsDTO> findAllQuestionByBox(int box_id) {
@@ -78,14 +115,21 @@ public class QuestionService {
     // }
     // }
 
-    public List<Question> toTest(int box_id) {
+    public List<QuestionsDTO> toTest(int box_id) {
         List<Question> questions = questionRepository.findAll();
+        List<QuestionsDTO> questionsDTOs = new ArrayList<>();
         for (Question question : questions) {
-            if (box_id != question.getBox().getBox_id()
-                    || !question.getTest_date().isEqual(LocalDate.now())) {
-                questions.remove(question);
+            if (box_id == question.getBox().getBox_id()
+                    && question.getTest_date().isEqual(LocalDate.now())) {
+                QuestionsDTO questionsDTO = new QuestionsDTO();
+                questionsDTO.setQuestion_id(question.getQuestion_id());
+                questionsDTO.setQuestion(question.getQuestion());
+                questionsDTO.setAnswer(question.getAnswer());
+                questionsDTO.setLevel_no(question.getLevel_no());
+                questionsDTO.setTest_date(question.getTest_date());
+                questionsDTOs.add(questionsDTO);
             }
         }
-        return questions;
+        return questionsDTOs;
     }
 }
