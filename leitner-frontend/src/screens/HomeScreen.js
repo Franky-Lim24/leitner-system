@@ -13,7 +13,8 @@ import {
  FlatList,
 } from 'react-native';
 import { Icon } from '@rneui/themed';
-import { LogOut, GetName, GetBoxes } from '../services/authService.js';
+import { LogOut, GetName } from '../services/authService.js';
+import { GetBoxes } from '../services/boxService.js';
 
 function HomeScreen({ navigation }) {
  // const [keyboardStatus, setKeyboardStatus] = useState(undefined);

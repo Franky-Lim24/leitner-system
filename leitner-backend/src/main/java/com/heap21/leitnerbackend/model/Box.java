@@ -23,6 +23,6 @@ public class Box {
     private String box_name;
     private String username;
 
-    @OneToMany(mappedBy = "box", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "box", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Question> reviews;
 }

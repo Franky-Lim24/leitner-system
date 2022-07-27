@@ -6,17 +6,14 @@ import {
     Text,
     TouchableOpacity,
     StyleSheet,
-    Dimensions,
-    Image,
     FlatList,
-    Alert,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import Feather from "react-native-vector-icons/Feather";
 import * as Animatable from "react-native-animatable";
 import { GetTask } from "../services/boxService";
-import { GetBoxes } from "../services/authService.js";
+import { GetBoxes } from "../services/boxService.js";
 
 const ScheduleScreen = ({ navigation }) => {
     //  today = new Date();

@@ -14,11 +14,10 @@ import {
 } from "react-native";
 import { Icon } from "@rneui/themed";
 import { NavigationContainer } from "@react-navigation/native";
-import { format } from "react-string-format"; //npm install
+import { format } from "react-string-format";
 import axios from "axios";
-import {CreateBox, CreateQuestions} from "../services/authService.js";
-
-const baseURL = "https://heap-leitner.uc.r.appspot.com";
+import {CreateBox} from "../services/boxService.js";
+import {CreateQuestions} from "../services/questionService.js";
 
 function DetailsScreen({ route, navigation }) {
 
@@ -51,19 +50,52 @@ function DetailsScreen({ route, navigation }) {
 
 
 
-  //Questions stuff
-  // const QuestionData = [
-  //   { id: 1, Question: "Question", Answer: "Answer" },
-  //   { id: 2, Question: "Question", Answer: "Answer" },
-  //   { id: 3, Question: "Question", Answer: "Answer" },
-  // ];
+  //flatlist for the boxes users will enter their questions into
+  const Questionboxes = [
+    { id: 1, question: "Question", answer: "Answer" },
+  ];
 
-  const createQuestions = (question) => {
-    CreateQuestions({
-      box_name: boxN,
-      colour: boxC,
-    })
+
+  var currentQuestionBoxID = 1;
+
+  async function addNewQuestionBox() {
+    if (JSON.stringify(Questionboxes[Questionboxes.length - 1].question) === JSON.stringify("Question")) {
+      alert("Please fill in your previous created question first!")
+      alert(JSON.stringify(Questionboxes));
+      return;
+    }
+
+
+    currentQuestionBoxID = currentQuestionBoxID + 1;
+    Questionboxes.push({id: currentQuestionBoxID, Question: "Question", Answer: "Answer"});
+    alert(JSON.stringify(Questionboxes));
+
+
+  }
+
+  //creating new questions and sending to the backend
+  // const initialstate = Questionboxes;
+  // const [questionsData, setData] = useState(initialstate);
+
+  var qn = "";
+
+  async function questionsSubmitted(value) {
+    qn = value.nativeEvent.text;
+    dismissKeyboard();
+  }
+
+  async function questionUpdate(qn)
+
+  async function answerSubmitted(value) {
+    var answer = value.nativeEvent.text;
+    dismissKeyboard();
+
+  }
+
+  const createQuestions = (questionsData) => {
+    CreateQuestions(questionsData);
   };
+
 
   const Question = ({ id, Question, Answer }) => (
     <View
@@ -84,9 +116,9 @@ function DetailsScreen({ route, navigation }) {
               overflow: "hidden",
             },
           ]}
-          placeholder="Question"
+          placeholder= "Question"
           placeholderTextColor="black"
-          onSubmitEditing={Keyboard.dismiss}
+          onSubmitEditing= {(value) => questionsSubmitted(value)}
         />
       </View>
       <Text
@@ -131,10 +163,9 @@ function DetailsScreen({ route, navigation }) {
   const renderQuestion = ({ item }) => (
     <Question
       title={item.title}
-      DayCount={item.DayCount}
-      DueDate={item.DueDate}
     />
   );
+
 
   //creating a box stuff
   const [boxName, setBoxName] = useState("");
@@ -196,26 +227,7 @@ function DetailsScreen({ route, navigation }) {
       </View>
 
       <View style={[styles.BackgroundRectangle]}>
-        {/* <Text style={[styles.Body, {fontSize: 17, position:"absolute", left: 35, top: 30, color:"grey"}]}>
-            Box  
-          </Text>
-          <Text style={[styles.Body, {fontSize: 17, position:"absolute", left: 35, top: 51, color:"grey"}]}>
-            Colour: 
-          </Text>
 
-          <TouchableOpacity style={[styles.Circle, {backgroundColor: "#FF6F6F", position:"absolute", left: 120, top: 30}]}/>
-          <TouchableOpacity style={[styles.Circle, {backgroundColor: "#56BA60", position:"absolute", left: 170, top: 30}]}/>
-          <TouchableOpacity style={[styles.Circle, {backgroundColor: "#EFDD85", position:"absolute", left: 220, top: 30}]}/>
-          <TouchableOpacity style={[styles.Circle, {backgroundColor: "#799DFA", position:"absolute", left: 270, top: 30}]}/>
-          <TouchableOpacity style={[styles.Circle, {backgroundColor: "#D879FA", position:"absolute", left: 320, top: 30}]}/> */}
-
-        {/* <Text style={[styles.Body, {fontSize: 17, position:"absolute", left: 35, top: 100, color:"grey"}]}>
-            Deadline:
-          </Text>
-
-          <TouchableOpacity style={[styles.Whitebox, styles.shadowProp, {width:235, height: 40, position: "absolute", left: 120, top: 90}]}> 
-          </TouchableOpacity>
- */}
         <View
           style={{
             height: 475,
@@ -226,19 +238,23 @@ function DetailsScreen({ route, navigation }) {
             top: 40,
           }}
         >
-          {QuestionData && (
+          {Questionboxes && (
             <FlatList
-              data={QuestionData}
+              data={Questionboxes}
               renderItem={renderQuestion}
               keyExtractor={(item) => item.id}
             />
           )}
         </View>
-
-        <TouchableOpacity style={{ position: "absolute", left: 35, top: 535 }}>
+        
+        {/* add questions button */}
+        <TouchableOpacity 
+          style={{ position: "absolute", left: 35, top: 535}}
+          onPress={(currentQuestionBoxID) => addNewQuestionBox(currentQuestionBoxID)}>
           <Icon name="plus" type="simple-line-icon" size={30} />
         </TouchableOpacity>
-
+        
+        {/* done button */}
         <TouchableOpacity
           style={[
             styles.Whitebox,

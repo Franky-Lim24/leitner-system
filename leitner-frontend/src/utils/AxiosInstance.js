@@ -9,8 +9,15 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
 	async (config) => {
 		const token = await AsyncStorage.getItem('token');
-		if (token) {
-			config.headers.Authorization = `Bearer ${token}`;
+		if (
+			!(
+				config.url.includes('/api/login') ||
+				config.url.includes('/api/user/save')
+			)
+		) {
+			if (token) {
+				config.headers.Authorization = `Bearer ${token}`;
+			}
 		}
 		return config;
 	},

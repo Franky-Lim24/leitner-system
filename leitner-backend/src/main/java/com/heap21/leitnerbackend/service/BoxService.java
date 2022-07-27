@@ -33,17 +33,26 @@ public class BoxService {
     }
 
     public Box saveBox(Box box) {
-        log.info("Saving new box to the database" + box.getBox_name() + box.getColour());
+        try {
+            log.info("Saving new box to the database" + box.getBox_name() + box.getColour());
 
-        box.setUsername(getUsername());
-        return boxRepo.save(box);
+            box.setUsername(getUsername());
+            return boxRepo.save(box);
+        } catch (Exception e) {
+            log.error("Error saving box to the database" + box.getBox_name() + box.getColour());
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     public Box updateBox(Box box) {
-        Box boxToUpdate = boxRepo.findById(box.getBox_id()).get();
-        boxToUpdate.setBox_name(box.getBox_name());
-        boxToUpdate.setColour(box.getColour());
-        return boxRepo.save(boxToUpdate);
+        try {
+            Box boxToUpdate = boxRepo.findById(box.getBox_id()).get();
+            boxToUpdate.setBox_name(box.getBox_name());
+            boxToUpdate.setColour(box.getColour());
+            return boxRepo.save(boxToUpdate);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     public void deleteBoxById(int id) {

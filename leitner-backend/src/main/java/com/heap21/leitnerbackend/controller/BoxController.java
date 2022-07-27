@@ -23,8 +23,12 @@ public class BoxController {
     private final BoxService boxService;
 
     @PostMapping
-    public ResponseEntity<Box> createBox(@RequestBody Box box) {
-        return new ResponseEntity<Box>(boxService.saveBox(box), HttpStatus.CREATED);
+    public ResponseEntity createBox(@RequestBody Box box) {
+        try {
+            return new ResponseEntity<Box>(boxService.saveBox(box), HttpStatus.CREATED);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PutMapping
