@@ -85,7 +85,9 @@ const SignUpScreen = ({ navigation }) => {
 					const isLoggedIn = await SignIn(info);
 					console.log(isLoggedIn);
 					if (isLoggedIn) {
-						navigation.navigate('HomeScreen');
+						navigation.push('HomeScreen');
+					} else {
+						alert('Sign up failed');
 					}
 				}
 			} catch (err) {

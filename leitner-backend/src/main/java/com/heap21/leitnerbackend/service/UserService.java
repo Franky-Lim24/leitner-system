@@ -40,13 +40,17 @@ public class UserService implements UserDetailsService {
                 user.getPassword(), authorities);
     }
 
-    public Users saveUser(Users user) {
+    public UsersDTO saveUser(Users user) {
         log.info("Saving new user to the database");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepo.save(user);
+        Users saveUser = userRepo.save(user);
+        UsersDTO usersDTO = new UsersDTO();
+        usersDTO.setUsername(saveUser.getUsername());
+        usersDTO.setAccount_id(saveUser.getAccount_id());
+        return usersDTO;
     }
 
-    public UsersDTO getUser(String username) {
+    public UsersDTO getUser(String username) throws UsernameNotFoundException {
         log.info("Fetching user {}", username);
         Users user = userRepo.findByUsername(username);
         if (user == null) {

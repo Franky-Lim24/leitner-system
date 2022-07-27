@@ -6,3 +6,9 @@ env_variables:
   MYSQL_DSN: mysql:unix_socket=/cloudsql/heap-leitner:asia-southeast1:leitner-system;dbname=leitner-system
   MYSQL_USER: root
   MYSQL_PASSWORD: '12345'
+network:
+  session_affinity: true
+automatic_scaling:
+  min_instances: 1
+  max_instances: 100
+  target_cpu_utilization: 0.9
