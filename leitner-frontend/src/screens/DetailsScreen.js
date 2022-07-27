@@ -21,14 +21,14 @@ import {CreateQuestions} from "../services/questionService.js";
 
 function DetailsScreen({ route, navigation }) {
 
-  const {callAPI} = route.params;
-  const createBoxes = (boxN, boxC) => {
-    CreateBox({
-      box_name: boxN,
-      colour: boxC,
-    })
-    navigation.navigate("HomeScreen");
-  };
+  // const {callAPI} = route.params;
+  // const createBoxes = (boxN, boxC) => {
+  //   CreateBox({
+  //     box_name: boxN,
+  //     colour: boxC,
+  //   })
+  //   navigation.navigate("HomeScreen");
+  // };
 
   //keyboard stuff
   const [keyboardStatus, setKeyboardStatus] = useState(undefined);
@@ -51,24 +51,29 @@ function DetailsScreen({ route, navigation }) {
 
 
   //flatlist for the boxes users will enter their questions into
-  const Questionboxes = [
+  const initialstate = [
     { id: 1, question: "Question", answer: "Answer" },
   ];
+
+  const [Questionboxes, setQuestionboxes] = useState(initialstate);
 
 
   var currentQuestionBoxID = 1;
 
   async function addNewQuestionBox() {
-    if (JSON.stringify(Questionboxes[Questionboxes.length - 1].question) === JSON.stringify("Question")) {
+    if (JSON.stringify(Questionboxes[Questionboxes.length - 1].question) === JSON.stringify("Question")
+        || JSON.stringify(Questionboxes[Questionboxes.length - 1].answer) === JSON.stringify("Answer")) {
+
       alert("Please fill in your previous created question first!")
-      alert(JSON.stringify(Questionboxes));
       return;
     }
+    console.log("\nThis is the last question: " + JSON.stringify(Questionboxes[Questionboxes.length - 1].question));
+    // alert(JSON.stringify("Question"));
 
 
     currentQuestionBoxID = currentQuestionBoxID + 1;
-    Questionboxes.push({id: currentQuestionBoxID, Question: "Question", Answer: "Answer"});
-    alert(JSON.stringify(Questionboxes));
+    Questionboxes.push({id: currentQuestionBoxID, question: "Question", answer: "Answer"});
+    console.log("\nNew question box successfully created!" + JSON.stringify(Questionboxes));
 
 
   }
@@ -78,22 +83,48 @@ function DetailsScreen({ route, navigation }) {
   // const [questionsData, setData] = useState(initialstate);
 
   var qn = "";
+  var ans = "";
 
   async function questionsSubmitted(value) {
     qn = value.nativeEvent.text;
-    dismissKeyboard();
-  }
+    const newState = Questionboxes.map(obj => {
 
-  async function questionUpdate(qn)
+
+      if (obj.id == currentQuestionBoxID) {
+
+        return {...obj, question: qn};
+      } else {
+        return obj;
+      }
+    });
+
+    setQuestionboxes(newState);
+    dismissKeyboard();
+    alert(JSON.stringify(Questionboxes));
+  }
 
   async function answerSubmitted(value) {
-    var answer = value.nativeEvent.text;
+    ans = value.nativeEvent.text;
+    const newState = Questionboxes.map(obj => {
+      // 👇️ if id equals 2, update country property
+      console.log("This is the obj id: " + obj.id)
+      console.log("This is the currentQuestionBoxID: " + currentQuestionBoxID)
+      if (obj.id == currentQuestionBoxID) {
+        console.log("I entered the if loop, obj.id == currentQuestionBoxID")
+        return {...obj, answer: ans};
+      } else {
+        return obj;
+      }
+    });
+
+    setQuestionboxes(newState);
     dismissKeyboard();
+    alert(JSON.stringify(Questionboxes));
 
   }
 
-  const createQuestions = (questionsData) => {
-    CreateQuestions(questionsData);
+  const createQuestions = (Questionboxes) => {
+    CreateQuestions(Questionboxes);
   };
 
 
@@ -153,7 +184,8 @@ function DetailsScreen({ route, navigation }) {
             },
           ]}
           placeholder="Answer"
-          onSubmitEditing={Keyboard.dismiss}
+          blurOnSubmit= {true}
+          onSubmitEditing={(value) => answerSubmitted(value)}
           multiline={true}
         />
       </View>
@@ -186,7 +218,6 @@ function DetailsScreen({ route, navigation }) {
 
   const dismissKeyboard = () => {
     Keyboard.dismiss;
-    console.log("dismissKeyboard");
 
   }
 
