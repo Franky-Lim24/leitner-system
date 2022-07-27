@@ -2,7 +2,7 @@
 ## _Heap Group 21_
 
 The Leitner Box application is a learning approach by providing efficient spaced repetition of flashcards selection.
-![Leitner Box Logo]([http://url/to/img.png](https://raw.githubusercontent.com/franky-lim24/leitner-system/main/images/logo.png))
+![Leitner Box Logo](https://raw.githubusercontent.com/franky-lim24/leitner-system/main/images/logo.png)
 
 ## Features
 
