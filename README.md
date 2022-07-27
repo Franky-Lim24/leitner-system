@@ -38,8 +38,6 @@ Ensure node version 16 is installed in your workstation and Expo Go in your phon
 cd leitner-frontend
 npm i -g expo-cli
 npm i
-npm start
-
 npm i @rneui/themed
 npm i react-native-flip-card-plus
 npm i react-native-vector-icons
@@ -47,6 +45,8 @@ npm i expo-linear-gradient
 npm i react-native-animatable
 npm i @react-native-async-storage/async-storage
 npm i axios
+
+npm start
 ```
 
 A QR code will be displayed in the terminal, please scan the QR code using Expo Go app for Android or Camera for IOS
