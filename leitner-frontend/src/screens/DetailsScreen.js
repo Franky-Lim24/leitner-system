@@ -52,44 +52,39 @@ function DetailsScreen({ route, navigation }) {
 
   //flatlist for the boxes users will enter their questions into
   const Questionboxes = [
-    { id: 1, Question: "Question", Answer: "Answer" },
+    { id: 1, question: "Question", answer: "Answer" },
   ];
 
-  const currentQuestionBoxID = 1;
 
-  async function addNewQuestionBox(currentQuestionBoxID) {
-    if (JSON.stringify(questionsData[questionsData.length - 1]) === JSON.stringify({question: "", answer: ""})) {
+  var currentQuestionBoxID = 1;
+
+  async function addNewQuestionBox() {
+    if (JSON.stringify(Questionboxes[Questionboxes.length - 1].question) === JSON.stringify("Question")) {
       alert("Please fill in your previous created question first!")
-      alert(JSON.stringify(questionsData));
+      alert(JSON.stringify(Questionboxes));
       return;
     }
-    questionsData.push({question: "", answer: ""});
-    alert(JSON.stringify(questionsData));
+
 
     currentQuestionBoxID = currentQuestionBoxID + 1;
     Questionboxes.push({id: currentQuestionBoxID, Question: "Question", Answer: "Answer"});
-    alert(JSON.stringify(currentQuestionBoxID)); //why doesn't this increment? 
+    alert(JSON.stringify(Questionboxes));
+
+
   }
 
   //creating new questions and sending to the backend
-  const initialstate = [{question: "", answer: ""}];
-  const [questionsData, setData] = useState(initialstate);
+  // const initialstate = Questionboxes;
+  // const [questionsData, setData] = useState(initialstate);
 
-  function questionsSubmitted(value) {
-    var qn = value.nativeEvent.text;
+  var qn = "";
+
+  async function questionsSubmitted(value) {
+    qn = value.nativeEvent.text;
     dismissKeyboard();
-
-    const newState = questionsData.map(obj => {
-      if (obj.question === "") {
-        return {...answer, question: qn};
-      } else {
-        return obj;
-      }
-    });
-
-    setData(newState);
-    alert(JSON.stringify(questionsData));
   }
+
+  async function questionUpdate(qn)
 
   async function answerSubmitted(value) {
     var answer = value.nativeEvent.text;
