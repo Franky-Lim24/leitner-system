@@ -49,13 +49,20 @@ const GetBoxes = async () => {
   return res;
 };
 
-const CreateBox = async (box_name) => {
+const CreateBox = async (box) => {
   const res = await axiosInstance({
     method: 'post',
     url: '/api/box',
+    data: {'box_name':box,"colour":"green"}
   }); 
-
-  return getAllBoxes();
 };
 
-export { SignIn, SignUp, LogOut, GetName, GetBoxes, CreateBox};
+const CreateQuestions = async (questions) => {
+  const res = await axiosInstance({
+    method: 'post',
+    url: '/api/question/{boxID}',
+    data: questions
+  })
+}
+
+export { SignIn, SignUp, LogOut, GetName, GetBoxes, CreateBox, CreateQuestions};

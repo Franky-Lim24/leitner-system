@@ -16,24 +16,18 @@ import { Icon } from "@rneui/themed";
 import { NavigationContainer } from "@react-navigation/native";
 import { format } from "react-string-format"; //npm install
 import axios from "axios";
+import {CreateBox, CreateQuestions} from "../services/authService.js";
 
 const baseURL = "https://heap-leitner.uc.r.appspot.com";
 
-function DetailsScreen({ navigation }) {
-  const createBox1 = () => {
-    axios
-      .post(`${baseURL}/api/box`, {
-        box_id: 1,
-        colour: "red",
-        box_name: "test box",
-        username: "test1",
-      })
-      .then((response) => {
-        setPost(response.data);
-      });
-  };
-  const createBox = () => {
-    createBox1();
+function DetailsScreen({ route, navigation }) {
+
+  const {callAPI} = route.params;
+  const createBoxes = (boxN, boxC) => {
+    CreateBox({
+      box_name: boxN,
+      colour: boxC,
+    })
     navigation.navigate("HomeScreen");
   };
 
@@ -54,12 +48,22 @@ function DetailsScreen({ navigation }) {
     };
   }, []);
 
-  //flatlist stuff
-  const QuestionData = [
-    { id: 1, Question: "Question", Answer: "Answer" },
-    { id: 2, Question: "Question", Answer: "Answer" },
-    { id: 3, Question: "Question", Answer: "Answer" },
-  ];
+
+
+
+  //Questions stuff
+  // const QuestionData = [
+  //   { id: 1, Question: "Question", Answer: "Answer" },
+  //   { id: 2, Question: "Question", Answer: "Answer" },
+  //   { id: 3, Question: "Question", Answer: "Answer" },
+  // ];
+
+  const createQuestions = (question) => {
+    CreateQuestions({
+      box_name: boxN,
+      colour: boxC,
+    })
+  };
 
   const Question = ({ id, Question, Answer }) => (
     <View
@@ -132,6 +136,47 @@ function DetailsScreen({ navigation }) {
     />
   );
 
+  //creating a box stuff
+  const [boxName, setBoxName] = useState("");
+
+  async function createBox(boxName) {
+    await CreateBox(boxName);
+    console.log(boxName + "created");
+
+  }
+
+
+  async function doneButtonPressed() {
+    console.log("doneButtonPressed");
+    await createBox(boxName);
+    alert(JSON.stringify(boxName) + "created" + "async ran");
+    navigation.push("HomeScreen");
+  }
+
+  const dismissKeyboard = () => {
+    Keyboard.dismiss;
+    console.log("dismissKeyboard");
+
+  }
+
+  const saveUserInput = (value) => {
+    console.log(value);
+    setBoxName(value);
+    callAPI();
+    console.log("saveuserinput");
+
+  }
+
+  const userMakesBoxName = (value) => {
+    console.log("usermakesboxname1");
+    console.log(value.nativeEvent.text);
+
+    saveUserInput(value.nativeEvent.text);
+    dismissKeyboard();
+    console.log('usernamemakesboxname2');
+  }
+
+
   return (
     <SafeAreaView style={styles.Background}>
       <TouchableOpacity
@@ -143,10 +188,10 @@ function DetailsScreen({ navigation }) {
 
       <View style={{ height: 50, width: 200, top: 60 }}>
         <TextInput
-          style={[styles.Title, { flexWrap: "wrap", overflow: "hidden" }]}
+          style={[styles.Title, { flexWrap: "wrap", overflow: "hidden", textAlign: "center" }]}          
           placeholder="Untitled Box"
           placeholderTextColor="white"
-          onSubmitEditing={Keyboard.dismiss}
+          onSubmitEditing= {(value) => userMakesBoxName(value)}
         />
       </View>
 
@@ -209,7 +254,7 @@ function DetailsScreen({ navigation }) {
               alignItems: "center",
             },
           ]}
-          onPress={() => createBox()}
+          onPress={() => doneButtonPressed()}
         >
           <Text style={[styles.Body, { color: "white" }]}>Done</Text>
         </TouchableOpacity>
