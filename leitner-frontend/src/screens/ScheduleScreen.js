@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Icon } from "@rneui/themed";
 
 import {
@@ -9,11 +9,14 @@ import {
     Dimensions,
     Image,
     FlatList,
+    Alert,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState } from "react";
 import Feather from "react-native-vector-icons/Feather";
 import * as Animatable from "react-native-animatable";
+import { GetTask } from "../services/boxService";
+import { GetBoxes } from "../services/authService.js";
 
 const ScheduleScreen = ({ navigation }) => {
     //  today = new Date();
@@ -36,57 +39,69 @@ const ScheduleScreen = ({ navigation }) => {
     var monthName = months[new Date().getMonth()];
     var day = new Date().getDay();
     const colors = ["#BEE0FE", "#FFCECE", "#CCFFD1", "#F3EBC3"];
-    const [boxArr, setBoxArr] = React.useState([
-        {
-            text: "Revision Box 1",
-            id: Math.random().toString(),
-            checkCircle: false,
-            color: colors[Math.floor(Math.random() * colors.length)],
-        },
-        {
-            text: "Revision Box 2",
-            id: Math.random().toString(),
-            checkCircle: false,
-            color: colors[Math.floor(Math.random() * colors.length)],
-        },
-        {
-            text: "Revision Box 3",
-            id: Math.random().toString(),
-            checkCircle: false,
-            color: colors[Math.floor(Math.random() * colors.length)],
-        },
-        {
-            text: "Revision Box 4",
-            id: Math.random().toString(),
-            checkCircle: false,
-            color: colors[Math.floor(Math.random() * colors.length)],
-        },
-        {
-            text: "Revision Box 5",
-            id: Math.random().toString(),
-            checkCircle: false,
-            color: colors[Math.floor(Math.random() * colors.length)],
-        },
-        {
-            text: "Revision Box 6",
-            id: Math.random().toString(),
-            checkCircle: false,
-            color: colors[Math.floor(Math.random() * colors.length)],
-        },
-        {
-            text: "Revision Box 7",
-            id: Math.random().toString(),
-            checkCircle: false,
-            color: colors[Math.floor(Math.random() * colors.length)],
-        },
-    ]);
+    const [boxArr, setBoxArr] = React.useState([]);
+
+    useEffect(() => {
+
+        async function getTask() {
+            console.log("Get task ran");
+            // const tasks = await GetTask();
+            // console.log(tasks);
+            var res = await GetBoxes();
+            // setBoxArr(res.data);
+            // console.log(res.data);
+            res = res.data;
+            // console.log(res.length);
+            res.forEach((userObject)=>{
+                console.log("hi");
+                setBoxArr(
+                    [
+                        ...boxArr,
+                        {
+                            text: userObject.box_name,
+                            // text: "1",
+                            id: Math.random().toString(),
+                            checkCircle: false,
+                            color: colors[Math.floor(Math.random() * colors.length)],
+                        },
+                    ]
+                );
+            });
+            // for (let userObject of res) {
+            //     console.log("for function "+userObject.box_name);
+            //     // alter(userObject.box_name);
+            //     // addboxArr(userObject.box_name);
+            //     // setBoxArr(
+            //     //     [
+            //     //         ...boxArr,
+            //     //         {
+            //     //             text: userObject.box_name,
+            //     //             id: Math.random().toString(),
+            //     //             checkCircle: false,
+            //     //             color: colors[Math.floor(Math.random() * colors.length)],
+            //     //         },
+            //     //     ]
+            //     // );
+            // }
+        }
+        getTask();
+
+        // function alter(value) {
+            
+        //     // console.log("alter function:"+value);
+        //     // if (value != undefined) {
+        //     //     console.log(value.box_name);
+        //         addboxArr(value);
+        //     // }
+        // }
+    },[]);
 
     function addboxArr(text) {
-        setBoxArr((retrievedText) => {
+        setBoxArr((text) => {
             [
                 ...boxArr,
                 {
-                    text: retrievedText,
+                    text: text,
                     id: Math.random().toString(),
                     checkCircle: false,
                     color: colors[Math.floor(Math.random() * colors.length)],
@@ -144,15 +159,16 @@ const ScheduleScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity 
-                    style={{position: "absolute", top: 60, left:35}}
-                    onPress={() => navigation.navigate("HomeScreen")}>
-                        <Icon 
-                        name="home" 
-                        type="simple-line-icon" 
+                <TouchableOpacity
+                    style={{ position: "absolute", top: 60, left: 35 }}
+                    onPress={() => navigation.navigate("HomeScreen")}
+                >
+                    <Icon
+                        name="home"
+                        type="simple-line-icon"
                         color="#FFFFFF"
                         size={30}
-                        />
+                    />
                 </TouchableOpacity>
                 <Text style={[styles.date]}>
                     {monthName} {new Date().getFullYear()}
@@ -270,8 +286,8 @@ const styles = StyleSheet.create({
         fontSize: 30,
         color: "#fff",
         paddingTop: 50,
-        left:110,
-        top: 10
+        left: 110,
+        top: 10,
     },
     dateCarosell: {
         flexDirection: "row",

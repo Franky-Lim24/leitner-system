@@ -1,4 +1,4 @@
-import axiosInstance from '../utils/AxiosInstance';
+import axiosInstance from "../utils/AxiosInstance";
 
 const GetBox = async () => {
 	const res = await axiosInstance({
@@ -28,7 +28,7 @@ const PostBox = async (box) => {
 const GetTask = async () => {
 	const res = await axiosInstance({
 		method: 'get',
-		url: '/api/box/task',
+		url: '/api/box/tasks',
 	});
 	return res.data;
 };
